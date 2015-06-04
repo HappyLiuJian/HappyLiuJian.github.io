@@ -93,6 +93,14 @@
       </li>
     
       
+      <li class="menu-item menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于
+        </a>
+      </li>
+    
+      
       <li class="menu-item menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
@@ -131,8 +139,141 @@
           
           
             
+              <a class="post-title-link" href="/2015/06/04/JavascriptDom2/">
+                JavaScriptDom 2
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-06-04
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/06/04/JavascriptDom2/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/04/JavascriptDom2/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="JavaScript基本概念">JavaScript基本概念</h1><h2 id="语法">语法</h2><ol>
+<li>严格区分大小写</li>
+<li>标识符首字符为字母、下划线或一个美元符，其他字符可以包括数字</li>
+<li>注释为c风格</li>
+</ol>
+<p>imp严格模式 使用”use strict”进入严格模式，”use strict”可以在顶部或函数中使用</p>
+<h2 id="语句">语句</h2><p>句末分号可有可无，但推荐有</p>
+<h2 id="关键字和保留字">关键字和保留字</h2><p>关键字和保留字不能作为标识符<br>关键字作标识符，报”Identifier Expected”错误，保留字是否有错取决于引擎<br>在严格模式下，保留字一定报错</p>
+<h2 id="变量">变量</h2><p>变量为松散类型，关键字为var，可以保存任何类型数据</p>
+<pre><code>var <span class="keyword">message</span> = <span class="string">"hi"</span>;
+<span class="keyword">message</span> = <span class="number">100</span>;
+</code></pre><p>完成更改操作(不建议更改变量值)</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">()</span> {</span>
+    var message = <span class="string">"hi"</span>;
+}
+test<span class="params">()</span>;
+alert<span class="params">(message)</span>;
+</code></pre><p>报错，因为函数内定义的var变量为局部变量，函数退出后会销毁</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">()</span> {</span>
+    message = <span class="string">"hi"</span>
+}
+test<span class="params">()</span>;
+alert<span class="params">(message)</span>;
+</code></pre><p>正确，不使用var定义的变量为全局变量(不推荐，容易混乱并且不易维护)</p>
+<h2 id="数据类型">数据类型</h2><p>5种基本数据类型(Undefined,Null,Boolean,Number,String)和一种负载类型(Object)<br>typeof操作可以返回数据类型</p>
+<pre><code><span class="keyword">typeof</span> message;
+<span class="keyword">typeof</span>(message);
+<span class="keyword">typeof</span> <span class="number">95</span>;
+</code></pre><p>typeof是一个操作符，不是函数，后面可以不用跟括号(但加上也不错)</p>
+<h3 id="Undefined">Undefined</h3><p>当一个变量未初始化值时，其类型即为undefined<br>一个声明但没有初始化的变量和一个未声明的变量是有区别的</p>
+<pre><code><span class="keyword">var</span> <span class="keyword">message</span>;
+<span class="comment">//var age;</span>
+
+alert(<span class="keyword">message</span>);
+alert(age);
+</code></pre><p>前者会警告变量值为undefined,后者会报错，提示没有变量</p>
+<h3 id="Null">Null</h3><p>null是一个空对象指针,使用typeof操作返回一个object值<br>推荐显示设置某个变量为null，用来保存对象<br>imp</p>
+<pre><code><span class="function"><span class="title">alert</span><span class="params">(null == undefined)</span></span>
+</code></pre><p>这句话返回值为true</p>
+<h3 id="Boolean">Boolean</h3><p>true或者false(True和False并不是它的值)<br>任何类型的值可以通过Boolean函数转化为bool值</p>
+<pre><code><span class="variable"><span class="keyword">var</span> message</span> = <span class="string">"hi"</span>;
+<span class="variable"><span class="keyword">var</span> BOOlmessage</span> = <span class="typename">Boolean</span>(message);
+</code></pre><p>转化的关系表如下：<br>类型            true            false<br>Boolean            true            false<br>String            任何非空        “”<br>Number            任何非零        0和NaN<br>Object            任何对象        null<br>Undefined        n/a                undefined</p>
+<h3 id="Number">Number</h3><p>十进制，八进制(前面加0，如果超出范围，视为10进制)，十六进制(前面加0x)</p>
+<pre><code><span class="variable"><span class="keyword">var</span> intNum</span> = <span class="number">10</span>;    <span class="comment">//十进制</span>
+
+<span class="variable"><span class="keyword">var</span> octalNum</span> = <span class="number">070</span>;    <span class="comment">//八进制</span>
+<span class="variable"><span class="keyword">var</span> octalNum</span> = <span class="number">079</span>; <span class="comment">//无效的八进制，视为十进制，79</span>
+
+<span class="variable"><span class="keyword">var</span> hexNum</span> = <span class="number">0xA</span>;    <span class="comment">//十进制的10</span>
+</code></pre><p>浮点数值 保存空间为整数值的两倍</p>
+<pre><code><span class="variable"><span class="keyword">var</span> floatNum</span> = <span class="number">1.1</span>;
+<span class="variable"><span class="keyword">var</span> floatNum</span> = .<span class="number">1</span>;    <span class="comment">//有效，不推荐</span>
+
+<span class="variable"><span class="keyword">var</span> floatNum</span> = <span class="number">1.0</span>;    <span class="comment">//会被自动解析为1以节省空间</span>
+
+<span class="variable"><span class="keyword">var</span> floatNum</span> = <span class="number">3.12e7</span>;    <span class="comment">//等于31200000</span>
+<span class="variable"><span class="keyword">var</span> floatNum</span> = <span class="number">3.12e-17</span>;    <span class="comment">//等于0.00000000312</span>
+</code></pre><p>数值范围5e-324(Number.MIN_VALUE)到1.7976931348623157e+308(Number.MAX_VALUE)<br>超出转换为Infinity或者-Infinity<br>函数isFinity()用来判断是否是有限数</p>
+<p>NaN 非数值，表示本来需要返回数值的操作数未返回数值(不会再抛出错误)，如：任何数值除以0，返回一个NaN，代码可以继续运行<br>注：任何涉及NaN的操作，都返回NaN，NaN与任何值不等，包括自身</p>
+<pre><code>alert(<span class="literal">NaN</span> == <span class="literal">NaN</span>);    <span class="comment">//false</span>
+</code></pre><p>isNaN()函数判断是否不是数值或者能转换为不是数值，true表示不是数值.如：</p>
+<pre><code>alert<span class="list">(<span class="keyword">isNaN</span><span class="list">(<span class="keyword">NaN</span>)</span>)</span><span class="comment">;    //true</span>
+alert<span class="list">(<span class="keyword">isNaN</span><span class="list">(<span class="number">10</span>)</span>)</span><span class="comment">;    //false</span>
+alert<span class="list">(<span class="keyword">isNaN</span><span class="list">(<span class="string">"10"</span>)</span>)</span><span class="comment">;    //false,"10"可以转化为10</span>
+alert<span class="list">(<span class="keyword">isNaN</span><span class="list">(<span class="string">"blue"</span>)</span>)</span><span class="comment">;    //true</span>
+alert<span class="list">(<span class="keyword">isNaN</span><span class="list">(<span class="keyword">true</span>)</span>)</span><span class="comment">;    //false,可以转化为1</span>
+</code></pre><p>三个数值转换函数 Number(),parseInt(),parseFloat()<br>Number()用于所用数据类型</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/06/04/Markdown/">
-                未命名
+                Markdown语法记录
               </a>
             
           
@@ -172,6 +313,105 @@
               阅读全文 &raquo;
             </a>
           </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/06/04/JavaScriptDom/">
+                JavaScriptDom 1
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-06-04
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/06/04/JavaScriptDom/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/04/JavaScriptDom/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="JavaScript简明学习(一)_历史">JavaScript简明学习(一) 历史</h1><h2 id="JavaScript的出现">JavaScript的出现</h2><p>最开始的网页表单验证需要经过后台服务器，时间久，效率低，前端脚本语言被发明解决这个问题</p>
+<h2 id="JavaScript的实现">JavaScript的实现</h2><p>ECMAScript+DOM+BOM</p>
+<h1 id="JavaScript简明学习(二)_在HTML中使用">JavaScript简明学习(二) 在HTML中使用</h1><h2 id="Script标签">Script标签</h2><p>标签属性</p>
+<ol>
+<li>async可选，表示立即加载</li>
+<li>charset可选，表示设定字符集，一般忽略</li>
+<li>defer可选，脚本可延迟到文档完全解析之后再执行</li>
+<li>src可选，外部js文件位置</li>
+<li>type可选，制定脚本类型 text/javascript</li>
+</ol>
+<p>使用方式为嵌入或者包含外部文件</p>
+<p>imp显示<code>&lt;/script&gt;</code>需要转义，如：</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span> = "<span class="attribute">text</span>/<span class="attribute">javascript</span>"&gt;</span><span class="openscad">
+    <span class="function"><span class="keyword">function</span> <span class="title">sayScript</span><span class="params">()</span> {</span>
+        alert<span class="params">(<span class="string">"&lt;\/script&gt;"</span>)</span>;
+    }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><p>否则会遇到alert中的<code>&lt;/script&gt;</code>认为是结束标记</p>
+<h2 id="标签的位置">标签的位置</h2><p><code>&lt;script&gt;</code>标签的位置放在最后的<code>&lt;/body&gt;</code>之前，保证页面先呈现内容再加载脚本</p>
+<p>延迟脚本 外部脚本添加defer属性形成 脚本本身在遇到<code>&lt;/html&gt;</code>之后执行，若有多个延迟脚本，按照书写顺序执行脚本<br>异步脚本 外部脚本添加async属性形成 脚本本身在遇到<code>&lt;/html&gt;</code>之后执行，若有多个延迟脚本，不一定按照书写顺序执行脚本 一定在window.onload之前执行，但可能在DOMContentLoaded之前或之后执行</p>
+<p><code>&lt;noscript&gt;</code>标签用以在不支持脚本或者脚本禁用的浏览器中平稳退化，显示替代内容，如：</p>
+<pre><code><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Example<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">noscipts</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">p</span>&gt;</span>本页面需要浏览器支持<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">noscipts</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</code></pre><p>—end—</p>
+
         
       
     </div>
@@ -298,7 +538,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -330,6 +570,10 @@
             
               <span class="links-of-author-item">
               <a href="http://weibo.com/3267007984/profile?topnav=1&wvr=6" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/liu-jian-73-92" target="_blank">Zhihu</a>
             </span>
             
           

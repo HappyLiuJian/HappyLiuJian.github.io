@@ -57,7 +57,7 @@
 
 
 
-  <title> Markdown语法记录 // HappyLiuJian </title>
+  <title> JavaScriptDom 1 // HappyLiuJian </title>
 </head>
 
 <body>
@@ -137,7 +137,7 @@
           
           
             
-              Markdown语法记录
+              JavaScriptDom 1
             
           
         </h1>
@@ -154,8 +154,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/04/Markdown/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/04/Markdown/"></span>
+            <a href="/2015/06/04/JavaScriptDom/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/04/JavaScriptDom/"></span>
             </a>
           </span>
           
@@ -169,31 +169,40 @@
       
 
       
-        <h1 id="Markdown语法">Markdown语法</h1><p>使用<em>Hexo</em>发布博文需要使用Markdown语法标记文字，基本的语法记录如下:<br>(<a href="http://jrmoran.com/playground/markdown-live-editor/" target="_blank" rel="external">文章参考</a>)</p>
-<a id="more"></a>
+        <h1 id="JavaScript简明学习(一)_历史">JavaScript简明学习(一) 历史</h1><h2 id="JavaScript的出现">JavaScript的出现</h2><p>最开始的网页表单验证需要经过后台服务器，时间久，效率低，前端脚本语言被发明解决这个问题</p>
+<h2 id="JavaScript的实现">JavaScript的实现</h2><p>ECMAScript+DOM+BOM</p>
+<h1 id="JavaScript简明学习(二)_在HTML中使用">JavaScript简明学习(二) 在HTML中使用</h1><h2 id="Script标签">Script标签</h2><p>标签属性</p>
 <ol>
-<li><p>标题<br>在Markdown当中设置标题，有两种方式：<br>第一种：通过在文字下方添加“=”和“-”，他们分别表示一级标题和二级标题。<br>第二种：在文字开头加上 “#”，通过“#”数量表示几级标题。（一共只有1~6级标题，1级标题字体最大）</p>
-</li>
-<li><p>块注释（blockquote）<br>通过在文字开头添加“&gt;”表示块注释。当&gt;和文字之间添加五个blank时，块注释的文字会有变化。</p>
-<blockquote>
-<p><em>if your browser supports HTML 5, this text will be stored locally</em></p>
-</blockquote>
-</li>
-<li><p>斜体和粗体<br>将需要设置为斜体的文字两端使用1个“<em>”或者“_”夹起来，将需要设置为斜体的文字两端使用2个“</em>”或者“_”夹起来</p>
-</li>
-<li><p>无序和有序列表<br>在文字开头添加(<em>, +, and -)实现无序列表。但是要注意在(</em>, +, and -)和文字之间需要添加空格。（建议：一个文档中只是用一种无序列表的表示方式）<br>使用数字后面跟上句号。（还要有空格）</p>
-</li>
-<li><p>链接<br>Markdown中有两种方式，实现链接，分别为内联方式和引用方式。<br>内联方式：This is an <a href="http://example.com/" target="_blank" rel="external">example link</a>.<br>引用方式：<br>I get 10 times more traffic from <a href="http://google.com/" target="_blank" rel="external">Google</a> than from <a href="http://search.yahoo.com/" target="_blank" rel="external">Yahoo</a> or <a href="http://search.msn.com/" target="_blank" rel="external">MSN</a>.  </p>
-</li>
-<li><p>图片<br>图片的处理方式和链接的处理方式，非常的类似。<br>内联方式：&gt; ![alt text]<br>引用方式：&gt; ![alt text]</p>
-</li>
-<li><p>代码<br>实现方式有两种：<br>第一种：简单文字出现一个代码框。使用<code>&lt;blockquote&gt;</code>。（<code>不是单引号而是左上角的ESC下面~中的</code>）<br>第二种：大片文字需要实现代码框。使用Tab和四个空格。</p>
-</li>
-<li><p>脚注<br>实现方式如下：<br>hello[^hello]</p>
-</li>
-<li><p>下划线<br>在空白行下方添加三条“-”横线。（前面讲过在文字下方添加“-”，实现的2级标题）</p>
-</li>
+<li>async可选，表示立即加载</li>
+<li>charset可选，表示设定字符集，一般忽略</li>
+<li>defer可选，脚本可延迟到文档完全解析之后再执行</li>
+<li>src可选，外部js文件位置</li>
+<li>type可选，制定脚本类型 text/javascript</li>
 </ol>
+<p>使用方式为嵌入或者包含外部文件</p>
+<p>imp显示<code>&lt;/script&gt;</code>需要转义，如：</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span> = "<span class="attribute">text</span>/<span class="attribute">javascript</span>"&gt;</span><span class="openscad">
+    <span class="function"><span class="keyword">function</span> <span class="title">sayScript</span><span class="params">()</span> {</span>
+        alert<span class="params">(<span class="string">"&lt;\/script&gt;"</span>)</span>;
+    }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><p>否则会遇到alert中的<code>&lt;/script&gt;</code>认为是结束标记</p>
+<h2 id="标签的位置">标签的位置</h2><p><code>&lt;script&gt;</code>标签的位置放在最后的<code>&lt;/body&gt;</code>之前，保证页面先呈现内容再加载脚本</p>
+<p>延迟脚本 外部脚本添加defer属性形成 脚本本身在遇到<code>&lt;/html&gt;</code>之后执行，若有多个延迟脚本，按照书写顺序执行脚本<br>异步脚本 外部脚本添加async属性形成 脚本本身在遇到<code>&lt;/html&gt;</code>之后执行，若有多个延迟脚本，不一定按照书写顺序执行脚本 一定在window.onload之前执行，但可能在DOMContentLoaded之前或之后执行</p>
+<p><code>&lt;noscript&gt;</code>标签用以在不支持脚本或者脚本禁用的浏览器中平稳退化，显示替代内容，如：</p>
+<pre><code><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Example<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">noscipts</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">p</span>&gt;</span>本页面需要浏览器支持<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">noscipts</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</code></pre><p>—end—</p>
 
       
     </div>
@@ -205,13 +214,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/04/JavascriptDom2/">JavaScriptDom 2</a>
+              <a href="/2015/06/04/Markdown/">Markdown语法记录</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/04/JavaScriptDom/">JavaScriptDom 1</a>
+              <a href="/2015/06/04/hello-world/">Hello World</a>
             
           </div>
         </div>
@@ -227,8 +236,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/04/Markdown/"
-               data-title="Markdown语法记录" data-url="http://yoursite.com/2015/06/04/Markdown/">
+          <div class="ds-thread" data-thread-key="2015/06/04/JavaScriptDom/"
+               data-title="JavaScriptDom 1" data-url="http://yoursite.com/2015/06/04/JavaScriptDom/">
           </div>
         
       </div>
@@ -333,7 +342,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Markdown语法"><span class="nav-number">1.</span> <span class="nav-text">Markdown语法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript简明学习(一)_历史"><span class="nav-number">1.</span> <span class="nav-text">JavaScript简明学习(一) 历史</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript的出现"><span class="nav-number">1.1.</span> <span class="nav-text">JavaScript的出现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript的实现"><span class="nav-number">1.2.</span> <span class="nav-text">JavaScript的实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript简明学习(二)_在HTML中使用"><span class="nav-number">2.</span> <span class="nav-text">JavaScript简明学习(二) 在HTML中使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Script标签"><span class="nav-number">2.1.</span> <span class="nav-text">Script标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标签的位置"><span class="nav-number">2.2.</span> <span class="nav-text">标签的位置</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
