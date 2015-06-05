@@ -175,6 +175,7 @@
 <li>注释为c风格</li>
 </ol>
 <p>imp严格模式 使用”use strict”进入严格模式，”use strict”可以在顶部或函数中使用</p>
+<a id="more"></a>
 <h2 id="语句">语句</h2><p>句末分号可有可无，但推荐有</p>
 <h2 id="关键字和保留字">关键字和保留字</h2><p>关键字和保留字不能作为标识符<br>关键字作标识符，报”Identifier Expected”错误，保留字是否有错取决于引擎<br>在严格模式下，保留字一定报错</p>
 <h2 id="变量">变量</h2><p>变量为松散类型，关键字为var，可以保存任何类型数据</p>
@@ -237,6 +238,30 @@ alert<span class="list">(<span class="keyword">isNaN</span><span class="list">(<
 alert<span class="list">(<span class="keyword">isNaN</span><span class="list">(<span class="string">"blue"</span>)</span>)</span><span class="comment">;    //true</span>
 alert<span class="list">(<span class="keyword">isNaN</span><span class="list">(<span class="keyword">true</span>)</span>)</span><span class="comment">;    //false,可以转化为1</span>
 </code></pre><p>三个数值转换函数 Number(),parseInt(),parseFloat()<br>Number()用于所用数据类型</p>
+<ol>
+<li>Boolean，true和false分别转换为1和0</li>
+<li>数字，传入返回</li>
+<li>null，返回0</li>
+<li>undefined，返回NaN</li>
+<li>字符串时</li>
+</ol>
+<ul>
+<li>只有数字，变为十进制数字“011”也会变为11</li>
+<li>有效浮点数变为相应浮点数，如“1.1”变为1.1</li>
+<li>有效十六进制变为相应十六进制，如“0xf”</li>
+<li>字符串为空，转为0</li>
+<li>其他，转为null</li>
+</ul>
+<ol>
+<li>当为对象时，调用其valueof()方法，然后按前面的规则转换。结果为NaN时，再调用对象的toString()方法，按前面的规则转换</li>
+</ol>
+<p>parseInt()只对字符串起作用，会忽略字符串前的空格，找到第一个非空格字符，若不是数字，返回NaN，若是，继续查看下一个，直到找到非数字(转换能识别进制，并且只有整数，不支持小数点.识别)</p>
+<p>parseFloat()识别小数，第一次扫描的.识别，第二次则不识别</p>
+<h3 id="String">String</h3><p>特点：<br>单引号、双引号都可以，没有区别<br>字符串不可变，一旦创建不能改变值。要改变某个变量保存的字符串，必须销毁原来的字符串，如：</p>
+<pre><code><span class="variable"><span class="keyword">var</span> lang</span> = <span class="string">"java"</span>;
+lang = lang + <span class="string">"script"</span>;
+</code></pre><p>第二行代码的作用过程为创建一个10个字符长的变量，向其中填充”java”和”script”字符串，最后销毁原来的字符串”java”和”script”</p>
+<p>字符串转换：<br>toString()方法：返回相应值得字符串表示；在转换可以有一个参数，表示基数(进制)，如：</p>
 
       
     </div>
@@ -374,7 +399,7 @@ alert<span class="list">(<span class="keyword">isNaN</span><span class="list">(<
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript基本概念"><span class="nav-number">1.</span> <span class="nav-text">JavaScript基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语句"><span class="nav-number">1.2.</span> <span class="nav-text">语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字和保留字"><span class="nav-number">1.3.</span> <span class="nav-text">关键字和保留字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">1.4.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">1.5.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Undefined"><span class="nav-number">1.5.1.</span> <span class="nav-text">Undefined</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null"><span class="nav-number">1.5.2.</span> <span class="nav-text">Null</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean"><span class="nav-number">1.5.3.</span> <span class="nav-text">Boolean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Number"><span class="nav-number">1.5.4.</span> <span class="nav-text">Number</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript基本概念"><span class="nav-number">1.</span> <span class="nav-text">JavaScript基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语句"><span class="nav-number">1.2.</span> <span class="nav-text">语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字和保留字"><span class="nav-number">1.3.</span> <span class="nav-text">关键字和保留字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">1.4.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">1.5.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Undefined"><span class="nav-number">1.5.1.</span> <span class="nav-text">Undefined</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null"><span class="nav-number">1.5.2.</span> <span class="nav-text">Null</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean"><span class="nav-number">1.5.3.</span> <span class="nav-text">Boolean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Number"><span class="nav-number">1.5.4.</span> <span class="nav-text">Number</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String"><span class="nav-number">1.5.5.</span> <span class="nav-text">String</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
