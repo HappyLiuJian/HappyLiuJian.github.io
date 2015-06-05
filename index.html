@@ -320,40 +320,11 @@
       
         
           <h1 id="JavaScript简明学习(一)_历史">JavaScript简明学习(一) 历史</h1><h2 id="JavaScript的出现">JavaScript的出现</h2><p>最开始的网页表单验证需要经过后台服务器，时间久，效率低，前端脚本语言被发明解决这个问题</p>
-<h2 id="JavaScript的实现">JavaScript的实现</h2><p>ECMAScript+DOM+BOM</p>
-<h1 id="JavaScript简明学习(二)_在HTML中使用">JavaScript简明学习(二) 在HTML中使用</h1><h2 id="Script标签">Script标签</h2><p>标签属性</p>
-<ol>
-<li>async可选，表示立即加载</li>
-<li>charset可选，表示设定字符集，一般忽略</li>
-<li>defer可选，脚本可延迟到文档完全解析之后再执行</li>
-<li>src可选，外部js文件位置</li>
-<li>type可选，制定脚本类型 text/javascript</li>
-</ol>
-<p>使用方式为嵌入或者包含外部文件</p>
-<p>imp显示<code>&lt;/script&gt;</code>需要转义，如：</p>
-<pre><code><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span> = "<span class="attribute">text</span>/<span class="attribute">javascript</span>"&gt;</span><span class="openscad">
-    <span class="function"><span class="keyword">function</span> <span class="title">sayScript</span><span class="params">()</span> {</span>
-        alert<span class="params">(<span class="string">"&lt;\/script&gt;"</span>)</span>;
-    }
-</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-</code></pre><p>否则会遇到alert中的<code>&lt;/script&gt;</code>认为是结束标记</p>
-<h2 id="标签的位置">标签的位置</h2><p><code>&lt;script&gt;</code>标签的位置放在最后的<code>&lt;/body&gt;</code>之前，保证页面先呈现内容再加载脚本</p>
-<p>延迟脚本 外部脚本添加defer属性形成 脚本本身在遇到<code>&lt;/html&gt;</code>之后执行，若有多个延迟脚本，按照书写顺序执行脚本<br>异步脚本 外部脚本添加async属性形成 脚本本身在遇到<code>&lt;/html&gt;</code>之后执行，若有多个延迟脚本，不一定按照书写顺序执行脚本 一定在window.onload之前执行，但可能在DOMContentLoaded之前或之后执行</p>
-<p><code>&lt;noscript&gt;</code>标签用以在不支持脚本或者脚本禁用的浏览器中平稳退化，显示替代内容，如：</p>
-<pre><code><span class="doctype">&lt;!DOCTYPE html&gt;</span>
-<span class="tag">&lt;<span class="title">html</span>&gt;</span>
-<span class="tag">&lt;<span class="title">head</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Example<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
-<span class="tag">&lt;<span class="title">body</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">noscipts</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">p</span>&gt;</span>本页面需要浏览器支持<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">noscipts</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
-</code></pre><p>—end—</p>
-
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/04/JavaScriptDom/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
