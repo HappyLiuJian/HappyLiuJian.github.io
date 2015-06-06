@@ -139,6 +139,71 @@
           
           
             
+              <a class="post-title-link" href="/2015/06/06/JavaScriptDom5/">
+                JavaScriptDom5
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-06-06
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/06/06/JavaScriptDom5/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/06/JavaScriptDom5/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/06/06/JavaScriptDom4/">
                 JavaScriptDom4
               </a>
@@ -175,85 +240,11 @@
       
         
           <h1 id="变量、作用域和内存">变量、作用域和内存</h1><h2 id="变量">变量</h2><p>JavaScript中存在5种基本变量和一种引用变量(与c等不同，在这里字符串不是对象，所以不作为引用变量)</p>
-<p>引用变量具有动态的属性，基本变量不具有，如下：</p>
-<pre><code><span class="variable"><span class="keyword">var</span> student</span> = new <span class="keyword">object</span>();    <span class="comment">//创建新的对象，保存在变量student中</span>
-student.name = <span class="string">"LiuJian"</span>;    <span class="comment">//动态创建引用类型变量student的属性name</span>
-alert(person.name);            <span class="comment">//输出属性值，正确</span>
-
-<span class="variable"><span class="keyword">var</span> name</span> = <span class="string">"LiuJian"</span>;    <span class="comment">//定义普通变量name</span>
-name.age = <span class="number">20</span>;            <span class="comment">//尝试创建动态属性age</span>
-alert(nam.age);        <span class="comment">//imp虽然并不报错，但返回undefined，没有什么卵用</span>
-</code></pre><p>复制基本变量，二者访问的值不同(保存其副本)，复制引用变量，二者访问同一个对象(类似保存两个指针，指向同一个对象)</p>
-<pre><code><span class="variable"><span class="keyword">var</span> a</span> = <span class="number">1</span>;
-<span class="variable"><span class="keyword">var</span> b</span> = a;
-b = <span class="number">5</span>;
-alert(a);    <span class="comment">//1</span>
-alert(b);    <span class="comment">//5</span>
-
-<span class="variable"><span class="keyword">var</span> obj1</span> = new Object();
-onj1.name = <span class="string">"hahah"</span>
-<span class="variable"><span class="keyword">var</span> obj2</span> = obj1;
-obj2.name = <span class="string">"liuliuliu"</span>;
-alert(obj1.name);        <span class="comment">//liuliuliu</span>
-alert(obj2.name);        <span class="comment">//liuliuliu</span>
-</code></pre><p>传递参数：所有参数按值传递，就像把值复制给参数局部变量一样，遵从上述的复制原则</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">addTen</span>(<span class="params">num</span>) </span>{
-    num += <span class="number">10</span>;
-    <span class="keyword">return</span> num;
-}
-
-<span class="keyword">var</span> a = <span class="number">10</span>;
-<span class="keyword">var</span> b = addTen(a);
-alert(a);        <span class="comment">//10，传递的只是值，num相当于局部变量，用完即销毁</span>
-alert(b);        <span class="comment">//20</span>
-
-<span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>{
-    obj.name = <span class="string">"liuliuliu"</span>;        <span class="comment">//此时obj与a指向同一个内存块</span>
-    obj = <span class="keyword">new</span> <span class="built_in">Object</span>();            <span class="comment">//为obj分配一个新的内存快指向</span>
-    obj.name = <span class="string">"hahah"</span>;            <span class="comment">//obj.name改变，不影响a</span>
-}
-
-<span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Object</span>();
-setName(a);
-alert(a.name);        <span class="comment">//"liuliuliu",说明按值传递，否则应该为"hahah"</span>
-</code></pre><p>检测类型：typeof用来检测基本变量，instanceof用来检测对象类型</p>
-<pre><code>result = variable instanceof constructor;    //语法
-
-alert(<span class="keyword">person</span> instanceof Object);    //变量<span class="keyword">person</span>是Object吗？
-alert(colors isntanceof Array);        //变量colors是Array吗？
-</code></pre><h2 id="作用域（执行环境）">作用域（执行环境）</h2><p>概念与c基本相同</p>
-<p>注意：</p>
-<ol>
-<li><p>使用try-catch中的catch块或者with语句可以延长作用域链</p>
-<p> function a() {</p>
-<pre><code><span class="variable"><span class="keyword">var</span> b</span> = <span class="string">"Hello"</span>；
-with(location) {
-    <span class="variable"><span class="keyword">var</span> c</span> = name +b;    <span class="comment">//c定义在with中，但由于引用了a执行环境中的变量b，也成为了a执行环境的一部分</span>
-}
-<span class="keyword">return</span> c;                <span class="comment">//输出c合法</span>
-</code></pre><p> }</p>
-</li>
-<li><p>没有块作用域,即花括号不能形成自己的作用域</p>
-<p> if(true) {</p>
-<pre><code><span class="variable"><span class="keyword">var</span> a</span> = <span class="number">1</span>;
-</code></pre><p> }</p>
-<p> alert(a);        //输出1</p>
-<p> for(var i;i &lt; 10;i++) {</p>
-<pre><code>statement<span class="comment">;</span>
-</code></pre><p> }<br> alert(i);        //输出10</p>
-</li>
-<li><p>使用var声明变量时，自动添加到最接近的执行环境中，函数内部则加到函数作用域，with语句中则加到最近的函数作用域；当不使用var声明变量时，变量被自动添加到全局执行环境中</p>
-<p> fucntion a() {</p>
-<pre><code><span class="variable"><span class="keyword">var</span> b</span> = <span class="string">"sadasd"</span>;        <span class="comment">//局部变量</span>
-c = <span class="string">"asfds"</span>;            <span class="comment">//全局变量</span>
-</code></pre><p> }</p>
-<p> alert(b);        //错误<br> alert(c);        //输出</p>
-</li>
-<li><p>查询标识符，从作用域链前端开始，向上逐级查询；与c相同</p>
-</li>
-</ol>
-<h2 id="垃圾收集和内存管理">垃圾收集和内存管理</h2><p>略</p>
-
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/06/JavaScriptDom4/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -661,7 +652,7 @@ c = <span class="string">"asfds"</span>;            <span class="comment">//全�
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
