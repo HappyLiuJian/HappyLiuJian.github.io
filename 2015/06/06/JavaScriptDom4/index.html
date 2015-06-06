@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="JavaScriptDom学习4," />
 
 
 
@@ -57,7 +57,7 @@
 
 
 
-  <title> Hello World // HappyLiuJian </title>
+  <title> JavaScriptDom4 // HappyLiuJian </title>
 </head>
 
 <body>
@@ -137,7 +137,7 @@
           
           
             
-              Hello World
+              JavaScriptDom4
             
           
         </h1>
@@ -154,8 +154,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/06/hello-world/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/06/hello-world/"></span>
+            <a href="/2015/06/06/JavaScriptDom4/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/06/JavaScriptDom4/"></span>
             </a>
           </span>
           
@@ -169,34 +169,107 @@
       
 
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<a id="more"></a>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <h1 id="变量、作用域和内存">变量、作用域和内存</h1><h2 id="变量">变量</h2><p>JavaScript中存在5种基本变量和一种引用变量(与c等不同，在这里字符串不是对象，所以不作为引用变量)</p>
+<p>引用变量具有动态的属性，基本变量不具有，如下：</p>
+<pre><code><span class="variable"><span class="keyword">var</span> student</span> = new <span class="keyword">object</span>();    <span class="comment">//创建新的对象，保存在变量student中</span>
+student.name = <span class="string">"LiuJian"</span>;    <span class="comment">//动态创建引用类型变量student的属性name</span>
+alert(person.name);            <span class="comment">//输出属性值，正确</span>
+
+<span class="variable"><span class="keyword">var</span> name</span> = <span class="string">"LiuJian"</span>;    <span class="comment">//定义普通变量name</span>
+name.age = <span class="number">20</span>;            <span class="comment">//尝试创建动态属性age</span>
+alert(nam.age);        <span class="comment">//imp虽然并不报错，但返回undefined，没有什么卵用</span>
+</code></pre><p>复制基本变量，二者访问的值不同(保存其副本)，复制引用变量，二者访问同一个对象(类似保存两个指针，指向同一个对象)</p>
+<pre><code><span class="variable"><span class="keyword">var</span> a</span> = <span class="number">1</span>;
+<span class="variable"><span class="keyword">var</span> b</span> = a;
+b = <span class="number">5</span>;
+alert(a);    <span class="comment">//1</span>
+alert(b);    <span class="comment">//5</span>
+
+<span class="variable"><span class="keyword">var</span> obj1</span> = new Object();
+onj1.name = <span class="string">"hahah"</span>
+<span class="variable"><span class="keyword">var</span> obj2</span> = obj1;
+obj2.name = <span class="string">"liuliuliu"</span>;
+alert(obj1.name);        <span class="comment">//liuliuliu</span>
+alert(obj2.name);        <span class="comment">//liuliuliu</span>
+</code></pre><p>传递参数：所有参数按值传递，就像把值复制给参数局部变量一样，遵从上述的复制原则</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">addTen</span>(<span class="params">num</span>) </span>{
+    num += <span class="number">10</span>;
+    <span class="keyword">return</span> num;
+}
+
+<span class="keyword">var</span> a = <span class="number">10</span>;
+<span class="keyword">var</span> b = addTen(a);
+alert(a);        <span class="comment">//10，传递的只是值，num相当于局部变量，用完即销毁</span>
+alert(b);        <span class="comment">//20</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>{
+    obj.name = <span class="string">"liuliuliu"</span>;        <span class="comment">//此时obj与a指向同一个内存块</span>
+    obj = <span class="keyword">new</span> <span class="built_in">Object</span>();            <span class="comment">//为obj分配一个新的内存快指向</span>
+    obj.name = <span class="string">"hahah"</span>;            <span class="comment">//obj.name改变，不影响a</span>
+}
+
+<span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Object</span>();
+setName(a);
+alert(a.name);        <span class="comment">//"liuliuliu",说明按值传递，否则应该为"hahah"</span>
+</code></pre><p>检测类型：typeof用来检测基本变量，instanceof用来检测对象类型</p>
+<pre><code>result = variable instanceof constructor;    //语法
+
+alert(<span class="keyword">person</span> instanceof Object);    //变量<span class="keyword">person</span>是Object吗？
+alert(colors isntanceof Array);        //变量colors是Array吗？
+</code></pre><h2 id="作用域（执行环境）">作用域（执行环境）</h2><p>概念与c基本相同</p>
+<p>注意：</p>
+<ol>
+<li><p>使用try-catch中的catch块或者with语句可以延长作用域链</p>
+<p> function a() {</p>
+<pre><code><span class="variable"><span class="keyword">var</span> b</span> = <span class="string">"Hello"</span>；
+with(location) {
+    <span class="variable"><span class="keyword">var</span> c</span> = name +b;    <span class="comment">//c定义在with中，但由于引用了a执行环境中的变量b，也成为了a执行环境的一部分</span>
+}
+<span class="keyword">return</span> c;                <span class="comment">//输出c合法</span>
+</code></pre><p> }</p>
+</li>
+<li><p>没有块作用域,即花括号不能形成自己的作用域</p>
+<p> if(true) {</p>
+<pre><code><span class="variable"><span class="keyword">var</span> a</span> = <span class="number">1</span>;
+</code></pre><p> }</p>
+<p> alert(a);        //输出1</p>
+<p> for(var i;i &lt; 10;i++) {</p>
+<pre><code>statement<span class="comment">;</span>
+</code></pre><p> }<br> alert(i);        //输出10</p>
+</li>
+<li><p>使用var声明变量时，自动添加到最接近的执行环境中，函数内部则加到函数作用域，with语句中则加到最近的函数作用域；当不使用var声明变量时，变量被自动添加到全局执行环境中</p>
+<p> fucntion a() {</p>
+<pre><code><span class="variable"><span class="keyword">var</span> b</span> = <span class="string">"sadasd"</span>;        <span class="comment">//局部变量</span>
+c = <span class="string">"asfds"</span>;            <span class="comment">//全局变量</span>
+</code></pre><p> }</p>
+<p> alert(b);        //错误<br> alert(c);        //输出</p>
+</li>
+<li><p>查询标识符，从作用域链前端开始，向上逐级查询；与c相同</p>
+</li>
+</ol>
+<h2 id="垃圾收集和内存管理">垃圾收集和内存管理</h2><p>略</p>
 
       
     </div>
 
     <div class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScriptDom学习4/"> #JavaScriptDom学习4 </a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/06/JavaScriptDom4/">JavaScriptDom4</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/06/JavaScriptDom3/">JavaScriptDom3</a>
+              <a href="/2015/06/06/hello-world/">Hello World</a>
             
           </div>
         </div>
@@ -212,8 +285,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/06/hello-world/"
-               data-title="Hello World" data-url="http://yoursite.com/2015/06/06/hello-world/">
+          <div class="ds-thread" data-thread-key="2015/06/06/JavaScriptDom4/"
+               data-title="JavaScriptDom4" data-url="http://yoursite.com/2015/06/06/JavaScriptDom4/">
           </div>
         
       </div>
@@ -318,7 +391,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick_Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create_a_new_post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run_server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate_static_files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy_to_remote_sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#变量、作用域和内存"><span class="nav-number">1.</span> <span class="nav-text">变量、作用域和内存</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">1.1.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域（执行环境）"><span class="nav-number">1.2.</span> <span class="nav-text">作用域（执行环境）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集和内存管理"><span class="nav-number">1.3.</span> <span class="nav-text">垃圾收集和内存管理</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
