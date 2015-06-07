@@ -220,33 +220,40 @@ alert(colors isntanceof Array);        //变量colors是Array吗？
 </code></pre><h2 id="作用域（执行环境）">作用域（执行环境）</h2><p>概念与c基本相同</p>
 <p>注意：</p>
 <ol>
-<li><p>使用try-catch中的catch块或者with语句可以延长作用域链</p>
-<p> function a() {</p>
-<pre><code><span class="variable"><span class="keyword">var</span> b</span> = <span class="string">"Hello"</span>；
-with(location) {
-    <span class="variable"><span class="keyword">var</span> c</span> = name +b;    <span class="comment">//c定义在with中，但由于引用了a执行环境中的变量b，也成为了a执行环境的一部分</span>
+<li>使用try-catch中的catch块或者with语句可以延长作用域链</li>
+</ol>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">a</span><span class="params">()</span> </span>{
+    <span class="keyword">var</span> b = <span class="string">"Hello"</span>；
+    <span class="keyword">with</span>(location) {
+        <span class="keyword">var</span> c = name +b;    <span class="comment">//c定义在with中，但由于引用了a执行环境中的变量b，也成为了a执行环境的一部分</span>
+    }
+    <span class="keyword">return</span> c;                <span class="comment">//输出c合法</span>
 }
-<span class="keyword">return</span> c;                <span class="comment">//输出c合法</span>
-</code></pre><p> }</p>
-</li>
-<li><p>没有块作用域,即花括号不能形成自己的作用域</p>
-<p> if(true) {</p>
-<pre><code><span class="variable"><span class="keyword">var</span> a</span> = <span class="number">1</span>;
-</code></pre><p> }</p>
-<p> alert(a);        //输出1</p>
-<p> for(var i;i &lt; 10;i++) {</p>
-<pre><code>statement<span class="comment">;</span>
-</code></pre><p> }<br> alert(i);        //输出10</p>
-</li>
-<li><p>使用var声明变量时，自动添加到最接近的执行环境中，函数内部则加到函数作用域，with语句中则加到最近的函数作用域；当不使用var声明变量时，变量被自动添加到全局执行环境中</p>
-<p> fucntion a() {</p>
-<pre><code><span class="variable"><span class="keyword">var</span> b</span> = <span class="string">"sadasd"</span>;        <span class="comment">//局部变量</span>
-c = <span class="string">"asfds"</span>;            <span class="comment">//全局变量</span>
-</code></pre><p> }</p>
-<p> alert(b);        //错误<br> alert(c);        //输出</p>
-</li>
-<li><p>查询标识符，从作用域链前端开始，向上逐级查询；与c相同</p>
-</li>
+</code></pre><ol>
+<li>没有块作用域,即花括号不能形成自己的作用域</li>
+</ol>
+<pre><code><span class="keyword">if</span><span class="params">(<span class="literal">true</span>)</span> {
+    var a = <span class="number">1</span>;
+}
+
+alert<span class="params">(a)</span>;        <span class="comment">//输出1</span>
+
+<span class="keyword">for</span><span class="params">(var i;i &lt; <span class="number">10</span>;i++)</span> {
+    statement;
+}
+alert<span class="params">(i)</span>;        <span class="comment">//输出10</span>
+</code></pre><ol>
+<li>使用var声明变量时，自动添加到最接近的执行环境中，函数内部则加到函数作用域，with语句中则加到最近的函数作用域；当不使用var声明变量时，变量被自动添加到全局执行环境中</li>
+</ol>
+<pre><code>fucntion a<span class="params">()</span> {
+    var b = <span class="string">"sadasd"</span>;        <span class="comment">//局部变量</span>
+    c = <span class="string">"asfds"</span>;            <span class="comment">//全局变量</span>
+}
+
+alert<span class="params">(b)</span>;        <span class="comment">//错误</span>
+alert<span class="params">(c)</span>;        <span class="comment">//输出</span>
+</code></pre><ol>
+<li>查询标识符，从作用域链前端开始，向上逐级查询；与c相同</li>
 </ol>
 <h2 id="垃圾收集和内存管理">垃圾收集和内存管理</h2><p>略</p>
 
