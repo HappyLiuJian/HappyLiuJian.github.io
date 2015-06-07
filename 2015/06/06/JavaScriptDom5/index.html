@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="JavaScriptDom5," />
 
 
 
@@ -169,11 +169,292 @@
       
 
       
-        
+        <h1 id="引用类型">引用类型</h1><p>引用类型是一种数据结构（类似于java或者c++中的类，但并不具备类和接口等实际结构）；<br>对象是引用类型的实例，新对象是由new操作符加上构造函数创建的</p>
+<pre><code>var <span class="keyword">person</span> = new Object();
+/*Object为构造函数，new Object()为实例，这个实例保存在<span class="keyword">person</span>变量中*/
+</code></pre><a id="more"></a>
+<h2 id="Object类型">Object类型</h2><p>创建方式两种</p>
+<pre><code><span class="variable"><span class="keyword">var</span> a</span> = new Object();
+a.name = <span class="string">"liujian"</span>;
+a.age = <span class="number">20</span>;
+
+<span class="variable"><span class="keyword">var</span> a</span> = {
+    name = <span class="string">"liujian"</span>,    <span class="comment">//注意使用逗号</span>
+    age = <span class="number">20</span>
+}    <span class="comment">//对象字面量方式</span>
+
+<span class="variable"><span class="keyword">var</span> a</span> = {
+    <span class="string">"name"</span> : <span class="string">"liujian"</span>,
+    <span class="string">"age"</span> : <span class="number">20</span>,
+    <span class="number">5</span> : <span class="literal">true</span>
+}    <span class="comment">//对象字面量属性名可以使用字符串,这里数值属性名也会变为字符串</span>
+
+<span class="variable"><span class="keyword">var</span> a</span> = {}
+a.name = <span class="string">"liujian"</span>;
+a.age = <span class="number">20</span>;        <span class="comment">//花括号可以留空，相当于new Object()</span>
+</code></pre><p>访问使用 . 或者[“”]</p>
+<pre><code><span class="keyword">person</span><span class="comment">["name"]</span>;
+<span class="keyword">person</span>.naem;
+</code></pre><h2 id="Array类型">Array类型</h2><p>javascritp中的数组每一项可以保存不同类型的变量，长度为动态调整</p>
+<p>创建方式</p>
+<pre><code><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>();
+<span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">10</span>);        <span class="comment">//预设长度</span>
+<span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">"liujian"</span>,<span class="string">"haha"</span>,<span class="string">"asd"</span>);        <span class="comment">//包含数据构造</span>
+<span class="comment">//new可以省略</span>
+<span class="keyword">var</span> a = <span class="built_in">Array</span>();
+
+<span class="keyword">var</span> a = [<span class="string">"liujian"</span>,<span class="string">"hah"</span>,<span class="string">"asd"</span>];
+<span class="keyword">var</span> a = [];        <span class="comment">//数组字面量方式</span>
+</code></pre><p>访问使用[x]形式</p>
+<pre><code><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">"liujian"</span>,<span class="string">"haha"</span>,<span class="string">"asd"</span>);
+alert(a[<span class="number">0</span>]);    <span class="comment">//"liujian"    </span>
+</code></pre><p>转换方法包括toString(),toLcaleString(),valueOf()，join()</p>
+<pre><code>var a = new Array<span class="params">(<span class="string">"liujian"</span>,<span class="string">"haha"</span>,<span class="string">"asd"</span>)</span>;
+alert<span class="params">(a.toString<span class="params">()</span>)</span>;        <span class="comment">//返回数组中的每个值的字符串形式的一个以逗号分开的字符串</span>
+alert<span class="params">(a.valueOf<span class="params">()</span>)</span>;            <span class="comment">//返回一个数组</span>
+alert<span class="params">(a.toLocaleString<span class="params">()</span>)</span>    <span class="comment">//返回与toString()相同，但每一个字符串由toLocaleString()形成</span>
+alert<span class="params">(a.join<span class="params">(<span class="string">"||"</span>)</span>)</span>;        <span class="comment">//join中的参数为分隔符类型</span>
+</code></pre><p>栈方法包括push和pop，push参数可以为多个,返回值为数组长度length，pop弹出末尾最后一项，返回值为移除的项</p>
+<pre><code><span class="variable"><span class="keyword">var</span> a</span> = new Array();
+<span class="variable"><span class="keyword">var</span> count</span> = a.push(<span class="string">"liujian"</span>);
+alert(count);    <span class="comment">//1</span>
+
+<span class="variable"><span class="keyword">var</span> s</span> = a.pop();
+alert(s);        <span class="comment">//"liujian"</span>
+</code></pre><p>队列方法push和shift，push和栈相同，shift移除数组第一项并且返回移除的项</p>
+<pre><code><span class="variable"><span class="keyword">var</span> a</span> = new Array();
+<span class="variable"><span class="keyword">var</span> count</span> = a.push(<span class="string">"liujian"</span>);
+alert(count);    <span class="comment">//1</span>
+
+<span class="variable"><span class="keyword">var</span> s</span> = a.shift();
+alert(s);        <span class="comment">//"liujian"</span>
+</code></pre><p>重排序方法包括reverse和sort，reverse颠倒数组，sort按照字符串比较排列数组(即使数组中的为数值，也会转化为字符串比较)</p>
+<pre><code>var a = [<span class="number">1,2,3,4</span>,5]<span class="comment">;</span>
+a.reverse()<span class="comment">;</span>
+alert(a)<span class="comment">;        //5,4,3,2,1</span>
+
+var b = [<span class="number">0,1,5,10</span>,15]<span class="comment">;</span>
+b.sort()<span class="comment">;</span>
+alert(b)<span class="comment">;        //0,1,10,15,5,这是由于按照字符串比较，5&gt;1,所以5在最后</span>
+</code></pre><p>可以利用比较函数便于我们指定谁在前</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">compare</span><span class="params">(a,b)</span> </span>{
+    <span class="keyword">if</span>(a &lt; b) {
+        <span class="keyword">return</span> -<span class="number">1</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span>(a &gt; b) {
+        <span class="keyword">return</span> <span class="number">1</span>;
+    } <span class="keyword">else</span> {
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+
+}
+
+<span class="keyword">var</span> b = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">10</span>,<span class="number">15</span>];
+b.sort(compare);
+alert(b);        <span class="comment">//0,1,5,10,15,compare函数做出修正</span>
+</code></pre><p>操作方法用来操作数组中的项，包括concat()连接,slice()剪切,splice()删除插入或者替换</p>
+<pre><code>var a = [<span class="string">"liujian"</span>,<span class="string">"haha"</span>,<span class="string">"byby"</span>];
+var b = a.concat(<span class="string">"xuxu"</span>,<span class="string">"bibi"</span>);        <span class="regexp">//concat</span>的参数也可以是数组
+alert(a);        <span class="regexp">//</span><span class="string">"liujian"</span>,<span class="string">"haha"</span>,<span class="string">"byby"</span>
+alert(b);        <span class="regexp">//</span><span class="string">"liujian"</span>,<span class="string">"haha"</span>,<span class="string">"byby"</span>,<span class="string">"xuxu"</span>,<span class="string">"bibi"</span>
+
+var a = [<span class="string">"liujian"</span>,<span class="string">"haha"</span>,<span class="string">"byby"</span>];
+var c = a.slice(<span class="number">1</span>);        <span class="regexp">//</span>参数为<span class="number">1</span>个，表示从这个到最后；
+var d = a.slice(<span class="number">1</span>,<span class="number">2</span>);    <span class="regexp">//</span>参数为<span class="number">2</span>个，表示从前一个到后一个
+alert(c);        <span class="regexp">//</span><span class="string">"haha"</span>,<span class="string">"byby"</span>
+alert(d);        <span class="regexp">//</span><span class="string">"haha"</span>,<span class="string">"byby"</span>
+
+var a = [<span class="string">"liujian"</span>,<span class="string">"haha"</span>,<span class="string">"byby"</span>];
+splice(<span class="number">0</span>,<span class="number">2</span>);        <span class="regexp">//</span>两个参数，前一个表示要删除的第一个项的位置，后一个表示删除的项数
+splice(<span class="number">1</span>,<span class="number">0</span>,<span class="string">"adsad"</span>,<span class="string">"adq"</span>);        <span class="regexp">//</span>大于等于<span class="number">3</span>个参数，第一个表示起始位置，第二个表示删除项数为<span class="number">0</span>，后面表示插入的项
+splice(<span class="number">1</span>,<span class="number">1</span>,<span class="string">"asdas"</span>,<span class="string">"fewfq"</span>);    <span class="regexp">//</span>第一个表示起始位置，第二个表示删除项数为<span class="number">1</span>，后面表示替换的项和再之后插入的项
+</code></pre><p>splice()操作返回都是数组，里面是删除的项</p>
+<p>位置操作indexOf()和lastIndexOf()</p>
+<pre><code>var a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">1</span>];
+alert<span class="comment">(a.indexOf(4)</span>);        <span class="comment">//从前往后查找4，返回值为3</span>
+alert<span class="comment">(a.lastIndexOf(4)</span>);    <span class="comment">//从后往前查找4，返回值为6</span>
+
+alert<span class="comment">(a.indexOf(4,4)</span>);        <span class="comment">//从前往后找，且开始起点为索引4，返回值为6</span>
+alert<span class="comment">(a.lastindexOf(4,3)</span>);    <span class="comment">//从后往前找，且开始起点为索引3，返回值为3</span>
+alert<span class="comment">(a.indexOf(7)</span>);        <span class="comment">//返回值为-1，表示不存在</span>
+</code></pre><p>迭代方法every(),filter(),forEach(),map(),some(),每个方法有两个参数，要对项运行的函数和函数的作用域(可选)，函数接收三个参数，分别为数组项的值，项在数组中的位置和数组对象本身<br>every()：对每一项运行函数，若每一项都为true则返回true，否则返回false<br>filter(): 对每一项运行函数，返回使函数会返回true的项组成的数组<br>forEach()：对每一项运行函数，无返回值<br>map()：对每一项运行函数，返回每次函数调用的结果组成的数组<br>some()：对每一项运行函数，若任一项为true则返回true，否则返回false</p>
+<p>缩小方法reduce()和reduceRight(),每个方法有两个参数,要对项运行的函数和缩小基础的初始值(可选)，函数接收四个参数，分别为前一个的值，当前值，项的索引和数组对象，函数的返回值作为下一次迭代的prev(前一个的值)</p>
+<pre><code><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];
+<span class="keyword">var</span> sum = a.reduce(<span class="function"><span class="keyword">function</span><span class="params">(prev,cur,<span class="keyword">index</span>,<span class="keyword">array</span>)</span>) <span class="comment">{
+    return prev + cur;        //返回的值传给prev，第一次迭代，prev=1,cur=2
+}</span>
+<span class="title">alert</span><span class="params">(sum)</span>;</span>        <span class="comment">//等于15，求和运算</span>
+<span class="comment">//reduceRight()是从数组后面往前遍历迭代</span>
+</code></pre><h2 id="Date类型">Date类型</h2><p>创建</p>
+<pre><code><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Date</span>();        <span class="comment">//a保存的是从1970年1月1日到当前时间的毫秒数</span>
+<span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="built_in">Date</span>.parse(<span class="string">"May 25,2015"</span>));    <span class="comment">//Date.parse()方法，接收日期字符串，返回毫秒数</span>
+<span class="keyword">var</span> a = <span class="keyword">new</span> Dtae(<span class="built_in">Date</span>.UTC(<span class="number">2015</span>,<span class="number">0</span>));                <span class="comment">/*Date.UTC()方法，接收2个以上的参数，第一个表示年份，第二个表示月份(0~11),第三个天数(1~31),第四个表示小时(0~23)...*/</span>
+<span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="built_in">Date</span>.UTC(<span class="number">2015</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">12</span>,<span class="number">36</span>))
+
+<span class="keyword">var</span> a = <span class="built_in">Date</span>.now();        <span class="comment">//Date.now()方法返回当前毫秒数</span>
+</code></pre><p>继承的方法：Date类型中的toString()和toLocaleString()重写方法返回日期的字符串表示，在不同浏览器中不同。valueOf()方法则只返回毫秒表示</p>
+<p>日期格式化：toUTCString()</p>
+<p>日期/时间组件方法</p>
+<pre><code>getTime<span class="params">()</span>;
+getMonth<span class="params">()</span>;        <span class="comment">//...</span>
+</code></pre><h2 id="RegExp类型">RegExp类型</h2><p>定义</p>
+<pre><code><span class="keyword">var</span> expression = <span class="regexp">/ pattern /</span> flags;        <span class="comment">//pattern是正则表达式,flags有三种g表示全局，i表示不区分大小写，m表示多行</span>
+
+<span class="keyword">var</span> a = <span class="regexp">/at/g</span>;                    <span class="comment">//匹配字符串中所有at的实例</span>
+<span class="keyword">var</span> b = <span class="regexp">/[bc]at/i</span>;                <span class="comment">//匹配所有bat/cat实例，不区分大小写</span>
+<span class="keyword">var</span> c = <span class="regexp">/\[bc\]at/i</span>;            <span class="comment">//匹配所有[bc]at实例，不区分大小写,\是转义符</span>
+
+<span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"[bc]at"</span>,<span class="string">"i"</span>);    <span class="comment">//匹配所有bat/cat实例，不区分大小写，构造函数初始化方法</span>
+<span class="comment">/*字符串转义需要两次，如："\\[bc\\]at"和/\[bc\]at/相同</span>
+</code></pre><p>实例属性</p>
+<pre><code>var a = /at/g;
+alert<span class="comment">(a.global)</span>;        <span class="comment">//global属性，布尔值，是否设置了g</span>
+alert<span class="comment">(a.ignoreCase)</span>;    <span class="comment">//布尔值，是否设置了i</span>
+alert<span class="comment">(a.lastIndex)</span>;        <span class="comment">//整数，开始搜索下一个匹配项的字符位置，从0算起</span>
+alert<span class="comment">(a.multiline)</span>;        <span class="comment">//布尔会，是否设置了m</span>
+alert<span class="comment">(a.source)</span>;        <span class="comment">//正则式的字符串返回，按照字面量形式返回</span>
+</code></pre><p>实例方法<br>exec(),接受一个参数，参数为要应用的字符串，返回包含第一个匹配信息的数组，或者无匹配时，返回null。返回的数组包含两个额外属性，index和input，一个表示匹配项在字符串中的位置，一个表示输入的字符串。在返回数组中，第一项是与整个模式匹配的字符串，其他项是与模式中的捕获组匹配的字符串</p>
+<pre><code>var a = <span class="string">"mom and dad and baby"</span>;
+var pattern = /mom <span class="params">( and dad <span class="params">(and baby)</span>?)</span>?/gi;        <span class="comment">//括号内是捕获组</span>
+
+var b = pattern.exec<span class="params">(a)</span>;
+alert<span class="params">(b.index)</span>;            <span class="comment">//0</span>
+alert<span class="params">(b.input)</span>;            <span class="comment">//"mom and dad and baby"</span>
+alert<span class="params">(b[<span class="number">0</span>])</span>;            <span class="comment">//"mom and dad and baby"</span>
+alert<span class="params">(b[<span class="number">1</span>])</span>;            <span class="comment">//"and dad and baby"与第一个捕获组匹配</span>
+alert<span class="params">(b[<span class="number">2</span>])</span>;            <span class="comment">//"and baby"与第二个捕获组匹配</span>
+</code></pre><p>test(),接受一个参数，匹配返回true，否则返回false</p>
+<p>构造函数属性,用以从test和exec中提取信息</p>
+<pre><code><span class="keyword">var</span> a = <span class="string">"this is a short sentence"</span>;
+<span class="keyword">var</span> pattern = <span class="regexp">/(.)hort/g</span>;
+
+<span class="keyword">if</span> (pattern.test(a)) {
+    alert(<span class="built_in">RegExp</span>.input);        <span class="comment">//"this is a short sentence"</span>
+    alert(<span class="built_in">RegExp</span>.leftContext);    <span class="comment">//"this is a"</span>
+    alert(<span class="built_in">RegExp</span>.lastmatch);    <span class="comment">//"short"</span>
+}
+</code></pre><h2 id="Function类型">Function类型</h2><p>函数也是一种对象，定义：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">a</span> <span class="params">(x,y)</span> </span>{
+    <span class="keyword">return</span> x+y;
+}            <span class="comment">//普通函数定义方法，称为函数声明</span>
+
+<span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span><span class="params">(x,y)</span> </span>{
+    <span class="keyword">return</span> x+y;
+};            <span class="comment">//function对象类型定义方法，注意结尾处有分号</span>
+</code></pre><p>函数没有重载，任何重载操作可以视为对Function类型变量的重新赋值，所以不能重载</p>
+<p>函数声明隐含</p>
+<pre><code>alert(<span class="built_in">sum</span>(<span class="number">10</span>,<span class="number">10</span>));
+<span class="function"><span class="keyword">function</span> <span class="title">sum</span><span class="params">(x,y)</span> {</span>
+    <span class="keyword">return</span> x+y;
+}        <span class="comment">//运行正确，因为使用这种方法定义函数隐含了函数声明，不用像c那样显示的提前声明</span>
+
+alert(<span class="built_in">sum</span>(<span class="number">10</span>,<span class="number">10</span>));
+var <span class="built_in">sum</span> = <span class="function"><span class="keyword">function</span><span class="params">(x,y)</span> {</span>
+    <span class="keyword">return</span> x+y;
+};        <span class="comment">//产生错误，因为这种方法定义函数变量不包括声明</span>
+</code></pre><p>函数可以作为值，访问函数指针而不执行函数，那么不要带函数后的括号，否则函数会执行</p>
+<p>函数内部属性：arguments和this,前者包含传入函数的所有参数，是一个类数组对象，其callee方法是一个指针，指向函数本身；后者表示函数当前的执行环境或者说作用域。caller属性则指向调用该函数的父函数，如果是全局调用，则返回null</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">factorial</span> <span class="params">(num)</span> {</span>
+    <span class="keyword">if</span> <span class="params">(num &lt;=<span class="number">1</span>)</span> {
+        return -<span class="number">1</span>;
+    } <span class="keyword">else</span> {
+        return num <span class="built_in">*</span> arguments.callee<span class="params">(num-<span class="number">1</span>)</span>;    <span class="comment">//不用使用函数名factorial，使得程序更易移植</span>
+    }
+}
+
+window.<span class="built_in">color</span> = <span class="string">"red"</span>;
+var o = { <span class="built_in">color</span>: <span class="string">"blue"</span>};
+
+<span class="function"><span class="keyword">function</span> <span class="title">sayColor</span><span class="params">()</span> {</span>
+    alert<span class="params">(this.color)</span>;
+}
+
+sayColor<span class="params">()</span>;        <span class="comment">//"red"，返回window执行环境中的color</span>
+o.sayColor = sayColor;    <span class="comment">//访问函数但不执行，使o对象实例的方法sayColor指向函数sayColor</span>
+o.sayColor;        <span class="comment">//"blue"，返回o执行环境中的color</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">outer</span><span class="params">()</span> {</span>
+    inner<span class="params">()</span>;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">inner</span><span class="params">()</span> {</span>
+    alert<span class="params">(inner.caller)</span>;
+}
+
+outer<span class="params">()</span>;            <span class="comment">//输出outer函数的代码</span>
+</code></pre><p>函数属性和方法<br>length和prototype属性，前者表示参数的个数，prototype保存所有函数的实例方法<br>apply()方法和call()方法</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">sum</span><span class="params">(sum1,sum2)</span> {</span>
+    return num1 + num2;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">callSum1</span><span class="params">(num1,num2)</span> {</span>
+    return sum.apply<span class="params">(this,arguments)</span>;        <span class="comment">//apply()的参数有两个，一个是作用域，另一个是参数数组</span>
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">callsum2</span><span class="params">(num1,num2)</span> {</span>
+    return sum.apply<span class="params">(this,[num1,num2])</span>;        <span class="comment">//数组的第二种表示</span>
+}
+
+alert<span class="params">(callSum1<span class="params">(<span class="number">10</span>,<span class="number">10</span>)</span>)</span>;        <span class="comment">//20</span>
+alert<span class="params">(callsum2<span class="params">(<span class="number">10</span>,<span class="number">10</span>)</span>)</span>;        <span class="comment">//20</span>
+<span class="function"><span class="keyword">function</span> <span class="title">callSum</span><span class="params">(num1,num2)</span> {</span>
+    return sum.call<span class="params">(this,num1,num2)</span>;        <span class="comment">/*call()的参数第一个为this，后面为运行函数所有的参数，作用与apply相同*/</span>
+}
+
+alert<span class="params">(callSum<span class="params">(<span class="number">10</span>,<span class="number">10</span>)</span>)</span>;        <span class="comment">//20</span>
+</code></pre><p>这两个方法的最大作用是用来实现作用域的扩充，如：</p>
+<pre><code>window.<span class="built_in">color</span> = <span class="string">"red"</span>;
+var o = { <span class="built_in">color</span>: <span class="string">"blue"</span>};
+
+<span class="function"><span class="keyword">function</span> <span class="title">sayColor</span><span class="params">()</span> {</span>
+    alert<span class="params">(this.color)</span>;
+}
+
+sayColor<span class="params">()</span>;        <span class="comment">//red</span>
+sayColor.call<span class="params">(this)</span>;    <span class="comment">//red</span>
+sayColor.call<span class="params">(window)</span>;    <span class="comment">//red</span>
+sayColor.call<span class="params">(o)</span>;        <span class="comment">//blue,直接扩充作用域</span>
+</code></pre><p>bind()方法，创建一个函数实例，this值绑定到新函数上去</p>
+<pre><code>window.<span class="built_in">color</span> = <span class="string">"red"</span>;
+var o = { <span class="built_in">color</span>: <span class="string">"blue"</span>};
+
+<span class="function"><span class="keyword">function</span> <span class="title">sayColor</span><span class="params">()</span> {</span>
+    alert<span class="params">(this.color)</span>;
+}
+
+var sayColor2 = sayColor.bind<span class="params">(o)</span>;
+sayColor2<span class="params">()</span>;    <span class="comment">//blue</span>
+</code></pre><h2 id="基本包装类型">基本包装类型</h2><p>Boolean、Number、String类型都有相应的引用包装类型，因此可以具备方法，创建方法如下：</p>
+<pre><code><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Boolean</span>(<span class="literal">true</span>);
+<span class="keyword">var</span> b = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">2</span>);
+<span class="keyword">var</span> c = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"asd"</span>);
+
+<span class="comment">/*每一个相应的包装类型有许多方法，如：*/</span>
+charat(<span class="number">1</span>);    <span class="comment">//获取第一个字符</span>
+concat(<span class="string">"sad"</span>);    <span class="comment">//连接"sad"字符串等等····</span>
+</code></pre><h2 id="单体内置对象">单体内置对象</h2><p>global对象，eval()方法</p>
+<pre><code><span class="built_in">eval</span>(<span class="string">"alert('hi')"</span>);        //等价于alert(<span class="string">"hi"</span>);
+</code></pre><p>window对象一般作为global对象的实际访问部分</p>
+<p>Math对象，包含数学值和数学方法</p>
+<pre><code>Math.E;            <span class="comment">//e的值</span>
+Math.LN10;        <span class="comment">//10的自然对数···</span>
+
+var <span class="built_in">min</span> = Math.<span class="built_in">min</span><span class="params">(<span class="number">1</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">2</span>)</span>;        <span class="comment">//min()和max();</span>
+Math.<span class="built_in">ceil</span><span class="params">()</span>;    <span class="comment">//向上舍入为整数</span>
+Math.<span class="built_in">floor</span><span class="params">()</span>;    <span class="comment">//向下舍入</span>
+Math.<span class="built_in">round</span><span class="params">()</span>;    <span class="comment">//四舍五入</span>
+Math.random<span class="params">()</span>;    <span class="comment">//0和1之间的随机数</span>
+Math.<span class="built_in">floor</span><span class="params">(Math.random<span class="params">()</span>*可能值得总数+第一个可能的数)</span>    <span class="comment">//····</span>
+</code></pre>
       
     </div>
 
     <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScriptDom5/"> #JavaScriptDom5 </a>
+          
+        </div>
       
 
       
@@ -262,7 +543,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -306,7 +587,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引用类型"><span class="nav-number">1.</span> <span class="nav-text">引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Object类型"><span class="nav-number">1.1.</span> <span class="nav-text">Object类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array类型"><span class="nav-number">1.2.</span> <span class="nav-text">Array类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date类型"><span class="nav-number">1.3.</span> <span class="nav-text">Date类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RegExp类型"><span class="nav-number">1.4.</span> <span class="nav-text">RegExp类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function类型"><span class="nav-number">1.5.</span> <span class="nav-text">Function类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本包装类型"><span class="nav-number">1.6.</span> <span class="nav-text">基本包装类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单体内置对象"><span class="nav-number">1.7.</span> <span class="nav-text">单体内置对象</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
