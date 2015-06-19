@@ -287,7 +287,43 @@ setTimeout<span class="params">(<span class="string">"alert('Hello world!') "</s
 setTimeout<span class="params">(function<span class="params">()</span> {
     alert<span class="params">(<span class="string">"Hello world!"</span>)</span>;
 }, <span class="number">1000</span>)</span>;
-</code></pre>
+</code></pre><p>调用 setTimeout()之后，该方法会返回一个数值 ID，表示超时调用。这个超时调用 ID 是计划执<br>行代码的唯一标识符，可以通过它来取消超时调用。要取消尚未执行的超时调用计划，可以调用<br>clearTimeout()方法并将相应的超时调用 ID 作为参数传递给它</p>
+<pre><code><span class="comment">//设置超时调用</span>
+<span class="keyword">var</span> timeoutId = setTimeout(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+    alert(<span class="string">"Hello world!"</span>);
+}, <span class="number">1000</span>);
+<span class="comment">//注意：把它取消</span>
+clearTimeout(timeoutId);
+</code></pre><p>间歇调用与超时调用类似，只不过它会按照指定的时间间隔重复执行代码，直至间歇调用被取消或<br>者页面被卸载。设置间歇调用的方法是 setInterval()，它接受的参数与 setTimeout()相同</p>
+<pre><code><span class="comment">//不建议传递字符串！</span>
+setInterval <span class="params">(<span class="string">"alert('Hello world!') "</span>, <span class="number">10000</span>)</span>;
+<span class="comment">//推荐的调用方式</span>
+setInterval <span class="params">(function<span class="params">()</span> {
+    alert<span class="params">(<span class="string">"Hello world!"</span>)</span>;
+}, <span class="number">10000</span>)</span>;
+</code></pre><p>调用 setInterval()方法同样也会返回一个间歇调用 ID，该 ID 可用于在将来某个时刻取消间歇<br>调用。要取消尚未执行的间歇调用，可以使用 clearInterval()方法并传入相应的间歇调用 ID。取消<br>间歇调用的重要性要远远高于取消超时调用，因为在不加干涉的情况下，间歇调用将会一直执行到页面<br>卸载</p>
+<h2 id="系统对话框">系统对话框</h2><p>浏览器通过 alert()、confirm()和prompt()方法可以调用系统对话框向用户显示消息。它们的外观由操作系统及（或）浏览器设置决定，而不是由 CSS 决定。此外，通过这几个方法打开的对话框都是同步和模态的。也就是说，显示这些对话框的时候代码会停止执行，而关掉这些对话框后代码又会恢复执行</p>
+<p>alert()方法接受一个字符串并将其显示给用户,向用户显示一些他们无法控制的消息，例如错误消息。而<br>用户只能在看完消息后关闭对话框</p>
+<p>confirm()方法除了显示 OK 按钮外，还会显示一个 Cancel（“取消”）按钮，两个按钮可以让用户决定是否执行给定的操作<br>为了确定用户是单击了 OK 还是 Cancel，可以检查 confirm()方法返回的布尔值： true 表示单击<br>了 OK， false 表示单击了 Cancel 或单击了右上角的 X 按钮</p>
+<pre><code><span class="keyword">if</span> <span class="params">(confirm<span class="params">(<span class="string">"Are you sure?"</span>)</span>)</span> {
+    alert<span class="params">(<span class="string">"I'm so glad you're sure! "</span>)</span>;
+} <span class="keyword">else</span> {
+    alert<span class="params">(<span class="string">"I'm sorry to hear you're not sure. "</span>)</span>;
+}
+</code></pre><p>prompt()方法生成一个“提示”框，用于提示用户输入一些文本。提示框中除了显示 OK 和 Cancel 按钮之外，还会显示一个文本输入域，以供用户在其中输入内容。prompt()方法接受两个参数：要显示给用户的文本提示和文本输入域的默认值（可以是一个空字符串）如果用户单击了 OK 按钮，则 prompt()返回文本输入域的值；如果用户单击了 Cancel 或没有单击OK 而是通过其他方式关闭了对话框，则该方法返回 null</p>
+<pre><code><span class="keyword">var</span> <span class="literal">result</span> = prompt(<span class="string">"What is your name? "</span>, <span class="string">""</span>);
+<span class="keyword">if</span> (<span class="literal">result</span> !== null) {
+    alert(<span class="string">"Welcome, "</span> + <span class="literal">result</span>);
+}
+</code></pre><p>除了上述三种对话框之外， Google Chrome 浏览器还引入了一种新特性。如果当前脚本在执行过程<br>中会打开两个或多个对话框，那么从第二个对话框开始，每个对话框中都会显示一个复选框，以便用户<br>阻止后续的对话框显示</p>
+<p>除了上述三种对话框之外， Google Chrome 浏览器还引入了一种新特性。如果当前脚本在执行过程<br>中会打开两个或多个对话框，那么从第二个对话框开始，每个对话框中都会显示一个复选框，以便用户<br>阻止后续的对话框显示</p>
+<pre><code><span class="comment">//显示“打印”对话框</span>
+<span class="built_in">window</span>.<span class="built_in">print</span>();
+<span class="comment">//显示“查找”对话框</span>
+<span class="built_in">window</span>.find();
+</code></pre><h2 id="location对象">location对象</h2><p>location 是最有用的 BOM 对象之一，它提供了与当前窗口中加载的文档有关的信息，还提供了一<br>些导航功能。事实上， location 对象是很特别的一个对象，因为它既是 window 对象的属性，也是<br>document 对象的属性；换句话说， window.location 和 document.location 引用的是同一个对象。<br>location 对象的用处不只表现在它保存着当前文档的信息，还表现在它将 URL 解析为独立的片段，让<br>开发人员可以通过不同的属性访问这些片段</p>
+<p>属 性 名                 例 子                     说 明<br>hash                     “#contents”             返回URL中的hash（#号后跟零或多个字符），如果URL<br>                                                中不包含散列，则返回空字符串<br>host                     “www.wrox.com:80”         返回服务器名称和端口号（如果有）<br>hostname                 “www.wrox.com”             返回不带端口号的服务器名称<br>href                     “http:/www.wrox.com”     返回当前加载页面的完整URL。而location对象的<br>                                                toString()方法也返回这个值<br>pathname                 “/WileyCDA/“             返回URL中的目录和（或）文件名<br>port                     “8080”                     返回URL中指定的端口号。如果URL中不包含端口号，则<br>                                                这个属性返回空字符串<br>protocol                 “http:”                 返回页面使用的协议。通常是http:或https:<br>search                     “?q=javascript”         返回URL的查询字符串。这个字符串以问号开头</p>
+<h3 id="查询字符串参数">查询字符串参数</h3>
       
     </div>
 
@@ -430,7 +466,7 @@ setTimeout<span class="params">(function<span class="params">()</span> {
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BOM"><span class="nav-number">1.</span> <span class="nav-text">BOM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#window对象"><span class="nav-number">1.1.</span> <span class="nav-text">window对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局作用域"><span class="nav-number">1.1.1.</span> <span class="nav-text">全局作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口关系以及框架"><span class="nav-number">1.1.2.</span> <span class="nav-text">窗口关系以及框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口位置"><span class="nav-number">1.1.3.</span> <span class="nav-text">窗口位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口大小"><span class="nav-number">1.1.4.</span> <span class="nav-text">窗口大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导航和打开窗口"><span class="nav-number">1.1.5.</span> <span class="nav-text">导航和打开窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#弹出窗口屏蔽"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">弹出窗口屏蔽</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间歇调用和超时调用"><span class="nav-number">1.2.</span> <span class="nav-text">间歇调用和超时调用</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BOM"><span class="nav-number">1.</span> <span class="nav-text">BOM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#window对象"><span class="nav-number">1.1.</span> <span class="nav-text">window对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局作用域"><span class="nav-number">1.1.1.</span> <span class="nav-text">全局作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口关系以及框架"><span class="nav-number">1.1.2.</span> <span class="nav-text">窗口关系以及框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口位置"><span class="nav-number">1.1.3.</span> <span class="nav-text">窗口位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口大小"><span class="nav-number">1.1.4.</span> <span class="nav-text">窗口大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导航和打开窗口"><span class="nav-number">1.1.5.</span> <span class="nav-text">导航和打开窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#弹出窗口屏蔽"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">弹出窗口屏蔽</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间歇调用和超时调用"><span class="nav-number">1.2.</span> <span class="nav-text">间歇调用和超时调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统对话框"><span class="nav-number">1.3.</span> <span class="nav-text">系统对话框</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#location对象"><span class="nav-number">1.4.</span> <span class="nav-text">location对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询字符串参数"><span class="nav-number">1.4.1.</span> <span class="nav-text">查询字符串参数</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
