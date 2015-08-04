@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="emmetUse," />
+  <meta name="keywords" content="Hexo,next" />
 
 
 
@@ -57,7 +57,7 @@
 
 
 
-  <title> emmetUse // HappyLiuJian </title>
+  <title> css总结.md // HappyLiuJian </title>
 </head>
 
 <body>
@@ -145,7 +145,7 @@
           
           
             
-              emmetUse
+              css总结.md
             
           
         </h1>
@@ -153,7 +153,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-09
+          发表于 2015-08-04
         </span>
 
         
@@ -162,8 +162,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/09/emmetUse/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/09/emmetUse/"></span>
+            <a href="/2015/08/04/css总结-md/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/04/css总结-md/"></span>
             </a>
           </span>
           
@@ -177,142 +177,42 @@
       
 
       
-        <h1 id="EMMET的使用">EMMET的使用</h1><h2 id="在sublime中的安装">在sublime中的安装</h2><p>首先你需要为sublime text安装Package Control组件:</p>
-<ul>
-<li>按Ctrl+`调出sublime text的console</li>
-<li><p>粘贴以下代码到底部命令行并回车</p>
-<p>  import urllib2,os;pf=’Package Control.sublime-package’;ipp=sublime.installedpackagespath();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),’wb’).write(urllib2.urlopen(‘<a href="http://sublime.wbond.net/&#39;+pf.replace(" target="_blank" rel="external">http://sublime.wbond.net/&#39;+pf.replace(</a>‘ ‘,’%20’)).read())</p>
+        <ol>
+<li>定宽元素水平居中  {width: xxpx; margin: xxpx auto;}</li>
+<li>不定宽元素居中  {position:absolute top:xxpx right:xxpx ….} 其父辈是position: relative的</li>
+<li>文字垂直居中  {height:xpx; line-height:xpx} 即高度与行间高度一致，这个方法对行内元素和会级元素都有用<pre><code>{<span class="attribute">padding</span><span class="value">:xxpx;</span>} 外框元素设置<span class="attribute">padding</span>值
+或者采用<span class="attribute">position</span>方法，进行精确定位
+注意<span class="attribute">overflow</span>方法的使用不然可能会导致内部元素溢出
+</code></pre></li>
+<li>默认样式一定要预先清除···一定要 *{margin:0; padding:0;}</li>
+<li>overflow:hidden特别有用···特别有用</li>
+<li>先考虑好元素的语义结构很重要</li>
+<li>text-indent（文本缩进用，text-indent替换padding-left，是为了防止菜单长度增加。例如：padding-left:10px; 会导致宽度也增加10px ）</li>
+<li>选择器a b代表a中的b，而a,b才代表a和b都具备相应样式</li>
+<li>float会挨着前一个float对象元素进行float，而absolute在不设置偏移的情况下会抢占前一个absolute的元素的左上角的位置，把前一个元素给遮盖</li>
+<li>absolute属性在没有设置偏移量的时候，出现在最初的位置，这个最初的位置是指父级元素的内容左上角（会根据父元素的padding等属性可能离父元素有距离），这里可以视作偏移的默认位置，之后设置偏移量，按照祖先元素中有定位的作为参考点，哪个方向设置多少就距离那个参考点多少，没有设置的方向，则就是默认的值，fixed与其基本相同，只是参考点一定为html文档</li>
+<li>行内元素没有width、height两个属性，margin和padding也只有左右方向有效果，上下都无效，设置其盒子高度可以通过line-height来设置</li>
+<li><p>垂直方向margin属性的重叠<br>已知 div 高 35px，紧邻其后的 X 元素上外边距为 15px，为该 div 设置 fixed 定位后，div与浏览器可视窗口上边界相距15px。<br>为什么呢？<br>因为X元素15px的上外边距与body的上外边距信息重叠了，所以body也跟着下移；然后，div在父元素body内，且没有设置偏移量，所以div相对其父元素body进行绝对定位（？）。</p>
 </li>
-<li><p>重启Sublime Text</p>
+<li><p>要使得ul水平，不仅可以利用float:left 或者absolute方法，也可以使用diplay:inline-block的方法来使得ul列表水平排列</p>
 </li>
-<li>在Perferences-&gt;package settings中看到package control，则表示安装成功</li>
-</ul>
-<p>使用Package Control安装Emmet插件:</p>
-<ul>
-<li>按Ctrl+Shift+P命令板</li>
-<li>输入pci然后选择install Package，然后输入emmet找到 Emmet Css Snippets，点击就可以自动完成安装</li>
-</ul>
-<h2 id="使用方法">使用方法</h2><p>直接在编辑器中输入HTML或CSS的代码的缩写，然后按tab键就可以拓展为完整的代码片段</p>
-<p>语法：</p>
-<p>后代 &gt;<br>如: nav&gt;ul&gt;li</p>
-<pre><code><span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;ul&gt;</span>
-        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;/ul&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-</code></pre><p>兄弟 +<br>如: div+b+bq</p>
-<pre><code><span class="tag">&lt;div&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;b&gt;</span><span class="tag">&lt;/b&gt;</span>
-<span class="tag">&lt;q&gt;</span><span class="tag">&lt;/q&gt;</span>
-</code></pre><p>上级 ^<br>如: div+div&gt;p&gt;q+em^bq</p>
-<pre><code><span class="tag">&lt;div&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;p&gt;</span><span class="tag">&lt;q&gt;</span><span class="tag">&lt;/q&gt;</span><span class="tag">&lt;em&gt;</span><span class="tag">&lt;/em&gt;</span><span class="tag">&lt;/p&gt;</span>
-    <span class="tag">&lt;blockquote&gt;</span><span class="tag">&lt;/blockquote&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-</code></pre><p>如: div+div&gt;p&gt;q+em^^bq</p>
-<pre><code><span class="tag">&lt;div&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;p&gt;</span><span class="tag">&lt;q&gt;</span><span class="tag">&lt;/q&gt;</span><span class="tag">&lt;em&gt;</span><span class="tag">&lt;/em&gt;</span><span class="tag">&lt;/p&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;blockquote&gt;</span><span class="tag">&lt;/blockquote&gt;</span>
-</code></pre><p>分组 ()<br>如: div&gt;(header&gt;ul&gt;li*2&gt;a)+footer&gt;p</p>
-<pre><code><span class="tag">&lt;<span class="title">div</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">header</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
-            <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
-            <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
-        <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">header</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">footer</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">footer</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-</code></pre><p>如: (div&gt;dl&gt;(dt+dd)*3)+footer&gt;p</p>
-<pre><code><span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;dl&gt;</span>
-        <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;/dt&gt;</span>
-        <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;/dd&gt;</span>
-        <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;/dt&gt;</span>
-        <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;/dd&gt;</span>
-        <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;/dt&gt;</span>
-        <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;/dd&gt;</span>
-    <span class="tag">&lt;/dl&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;footer&gt;</span>
-    <span class="tag">&lt;p&gt;</span><span class="tag">&lt;/p&gt;</span>
-<span class="tag">&lt;/footer&gt;</span>
-</code></pre><p>乘法 <em><br>如: ul&gt;li</em>5</p>
-<pre><code><span class="tag">&lt;ul&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-<span class="tag">&lt;/ul&gt;</span>
-</code></pre><p>自增符号 $<br>如: ul&gt;li.item$*5</p>
-<pre><code>&lt;ul&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item1"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item2"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item3"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item4"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item5"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-&lt;/ul&gt;
-</code></pre><p>如: h$[title=item$]{Header $}*3</p>
-<pre><code><span class="tag">&lt;<span class="title">h1</span> <span class="attribute">title</span>=<span class="value">"item1"</span>&gt;</span>Header 1<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
-<span class="tag">&lt;<span class="title">h2</span> <span class="attribute">title</span>=<span class="value">"item2"</span>&gt;</span>Header 2<span class="tag">&lt;/<span class="title">h2</span>&gt;</span>
-<span class="tag">&lt;<span class="title">h3</span> <span class="attribute">title</span>=<span class="value">"item3"</span>&gt;</span>Header 3<span class="tag">&lt;/<span class="title">h3</span>&gt;</span>
-</code></pre><p>如: ul&gt;li.item$$$*5</p>
-<pre><code>&lt;ul&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item001"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item002"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item003"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item004"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item005"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-&lt;/ul&gt;
-</code></pre><p>如: ul&gt;li.item$@-*5</p>
-<pre><code>&lt;ul&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item5"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item4"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item3"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item2"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item1"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-&lt;/ul&gt;
-</code></pre><p>ID和类属性<br>ID：#header</p>
-<pre><code>&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"header"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
-</code></pre><p>类: .title</p>
-<pre><code>&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"title"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
-</code></pre><p>自定义属性<br>p[title=”Hello world”]</p>
-<pre><code><span class="tag">&lt;<span class="title">p</span> <span class="attribute">title</span>=<span class="value">"Hello world"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-</code></pre><p>文本：{}<br>a{Click me}</p>
-<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span>Click me<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
-</code></pre><p>所有未知的缩写都会转换成标签，例如，foo → <foo></foo></p>
-<p>……</p>
-<p>注：主要转自W3C <a href="http://www.w3cplus.com/tools/emmet-cheat-sheet.html" target="_blank" rel="external">Pet的博客</a></p>
+</ol>
 
       
     </div>
 
     <div class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/emmetUse/"> #emmetUse </a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/13/JavaScriptDom7/">JavaScriptDom7</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/09/JavaScriptDom6/">JavaScriptDom6</a>
+              <a href="/2015/08/04/js笔记-md/">js笔记.md</a>
             
           </div>
         </div>
@@ -328,8 +228,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/09/emmetUse/"
-               data-title="emmetUse" data-url="http://yoursite.com/2015/06/09/emmetUse/">
+          <div class="ds-thread" data-thread-key="2015/08/04/css总结-md/"
+               data-title="css总结.md" data-url="http://yoursite.com/2015/08/04/css总结-md/">
           </div>
         
       </div>
@@ -434,7 +334,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#EMMET的使用"><span class="nav-number">1.</span> <span class="nav-text">EMMET的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在sublime中的安装"><span class="nav-number">1.1.</span> <span class="nav-text">在sublime中的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">1.2.</span> <span class="nav-text">使用方法</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
