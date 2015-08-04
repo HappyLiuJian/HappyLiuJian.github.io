@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="emmetUse," />
+  <meta name="keywords" content="Hexo,next" />
 
 
 
@@ -57,7 +57,7 @@
 
 
 
-  <title> emmetUse // HappyLiuJian </title>
+  <title> js笔记.md // HappyLiuJian </title>
 </head>
 
 <body>
@@ -145,7 +145,7 @@
           
           
             
-              emmetUse
+              js笔记.md
             
           
         </h1>
@@ -153,7 +153,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-09
+          发表于 2015-08-04
         </span>
 
         
@@ -162,8 +162,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/09/emmetUse/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/09/emmetUse/"></span>
+            <a href="/2015/08/04/js笔记-md/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/04/js笔记-md/"></span>
             </a>
           </span>
           
@@ -177,142 +177,61 @@
       
 
       
-        <h1 id="EMMET的使用">EMMET的使用</h1><h2 id="在sublime中的安装">在sublime中的安装</h2><p>首先你需要为sublime text安装Package Control组件:</p>
-<ul>
-<li>按Ctrl+`调出sublime text的console</li>
-<li><p>粘贴以下代码到底部命令行并回车</p>
-<p>  import urllib2,os;pf=’Package Control.sublime-package’;ipp=sublime.installedpackagespath();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),’wb’).write(urllib2.urlopen(‘<a href="http://sublime.wbond.net/&#39;+pf.replace(" target="_blank" rel="external">http://sublime.wbond.net/&#39;+pf.replace(</a>‘ ‘,’%20’)).read())</p>
+        <ol>
+<li><p>使用js改变某个元素的样式一般不采用x.style.x的方式，而是通过改变元素的类名，如设置active,on等类名，向这些类中添加属性，从而实现改变元素样式</p>
 </li>
-<li><p>重启Sublime Text</p>
+<li><p>鼠标的位置保存在event中，clientX和clientY表示其x、y坐标</p>
 </li>
-<li>在Perferences-&gt;package settings中看到package control，则表示安装成功</li>
-</ul>
-<p>使用Package Control安装Emmet插件:</p>
-<ul>
-<li>按Ctrl+Shift+P命令板</li>
-<li>输入pci然后选择install Package，然后输入emmet找到 Emmet Css Snippets，点击就可以自动完成安装</li>
-</ul>
-<h2 id="使用方法">使用方法</h2><p>直接在编辑器中输入HTML或CSS的代码的缩写，然后按tab键就可以拓展为完整的代码片段</p>
-<p>语法：</p>
-<p>后代 &gt;<br>如: nav&gt;ul&gt;li</p>
-<pre><code><span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;ul&gt;</span>
-        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;/ul&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-</code></pre><p>兄弟 +<br>如: div+b+bq</p>
-<pre><code><span class="tag">&lt;div&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;b&gt;</span><span class="tag">&lt;/b&gt;</span>
-<span class="tag">&lt;q&gt;</span><span class="tag">&lt;/q&gt;</span>
-</code></pre><p>上级 ^<br>如: div+div&gt;p&gt;q+em^bq</p>
-<pre><code><span class="tag">&lt;div&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;p&gt;</span><span class="tag">&lt;q&gt;</span><span class="tag">&lt;/q&gt;</span><span class="tag">&lt;em&gt;</span><span class="tag">&lt;/em&gt;</span><span class="tag">&lt;/p&gt;</span>
-    <span class="tag">&lt;blockquote&gt;</span><span class="tag">&lt;/blockquote&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-</code></pre><p>如: div+div&gt;p&gt;q+em^^bq</p>
-<pre><code><span class="tag">&lt;div&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;p&gt;</span><span class="tag">&lt;q&gt;</span><span class="tag">&lt;/q&gt;</span><span class="tag">&lt;em&gt;</span><span class="tag">&lt;/em&gt;</span><span class="tag">&lt;/p&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;blockquote&gt;</span><span class="tag">&lt;/blockquote&gt;</span>
-</code></pre><p>分组 ()<br>如: div&gt;(header&gt;ul&gt;li*2&gt;a)+footer&gt;p</p>
-<pre><code><span class="tag">&lt;<span class="title">div</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">header</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
-            <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
-            <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
-        <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">header</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">footer</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">footer</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-</code></pre><p>如: (div&gt;dl&gt;(dt+dd)*3)+footer&gt;p</p>
-<pre><code><span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;dl&gt;</span>
-        <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;/dt&gt;</span>
-        <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;/dd&gt;</span>
-        <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;/dt&gt;</span>
-        <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;/dd&gt;</span>
-        <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;/dt&gt;</span>
-        <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;/dd&gt;</span>
-    <span class="tag">&lt;/dl&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;footer&gt;</span>
-    <span class="tag">&lt;p&gt;</span><span class="tag">&lt;/p&gt;</span>
-<span class="tag">&lt;/footer&gt;</span>
-</code></pre><p>乘法 <em><br>如: ul&gt;li</em>5</p>
-<pre><code><span class="tag">&lt;ul&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-<span class="tag">&lt;/ul&gt;</span>
-</code></pre><p>自增符号 $<br>如: ul&gt;li.item$*5</p>
-<pre><code>&lt;ul&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item1"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item2"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item3"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item4"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item5"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-&lt;/ul&gt;
-</code></pre><p>如: h$[title=item$]{Header $}*3</p>
-<pre><code><span class="tag">&lt;<span class="title">h1</span> <span class="attribute">title</span>=<span class="value">"item1"</span>&gt;</span>Header 1<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
-<span class="tag">&lt;<span class="title">h2</span> <span class="attribute">title</span>=<span class="value">"item2"</span>&gt;</span>Header 2<span class="tag">&lt;/<span class="title">h2</span>&gt;</span>
-<span class="tag">&lt;<span class="title">h3</span> <span class="attribute">title</span>=<span class="value">"item3"</span>&gt;</span>Header 3<span class="tag">&lt;/<span class="title">h3</span>&gt;</span>
-</code></pre><p>如: ul&gt;li.item$$$*5</p>
-<pre><code>&lt;ul&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item001"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item002"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item003"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item004"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item005"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-&lt;/ul&gt;
-</code></pre><p>如: ul&gt;li.item$@-*5</p>
-<pre><code>&lt;ul&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item5"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item4"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item3"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item2"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item1"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-&lt;/ul&gt;
-</code></pre><p>ID和类属性<br>ID：#header</p>
-<pre><code>&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"header"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
-</code></pre><p>类: .title</p>
-<pre><code>&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"title"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
-</code></pre><p>自定义属性<br>p[title=”Hello world”]</p>
-<pre><code><span class="tag">&lt;<span class="title">p</span> <span class="attribute">title</span>=<span class="value">"Hello world"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-</code></pre><p>文本：{}<br>a{Click me}</p>
-<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span>Click me<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
-</code></pre><p>所有未知的缩写都会转换成标签，例如，foo → <foo></foo></p>
-<p>……</p>
-<p>注：主要转自W3C <a href="http://www.w3cplus.com/tools/emmet-cheat-sheet.html" target="_blank" rel="external">Pet的博客</a></p>
+<li><p>有三种方法能够确定浏览器窗口的尺寸（浏览器的视口，不包括工具栏和滚动条）。</p>
+</li>
+</ol>
+<p>对于Internet Explorer、Chrome、Firefox、Opera 以及 Safari：</p>
+<p>window.innerHeight - 浏览器窗口的内部高度<br>window.innerWidth - 浏览器窗口的内部宽度<br>对于 Internet Explorer 8、7、6、5：</p>
+<p>document.documentElement.clientHeight<br>document.documentElement.clientWidth<br>或者</p>
+<p>document.body.clientHeight<br>document.body.clientWidth</p>
+<ol>
+<li><p>var that = this;这个语句存在的意义是：<br>a.add(a,b);这种方式调用函数相当于在a对象里添加一个方法为add，这个add方法可以内部可以引用this访问a对象，也就是说，这个this绑定到了a;相反，var a = add(a,b);这种方式访问函数add就不是这样了，这里的add依然只是一个函数，不是对象的方法，它的this绑定到window对象(或者它的父对象),此时会出现一种情况</p>
+<p> var out = {</p>
+<pre><code>a : <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">()</span> </span>{
+    <span class="comment">//...</span>
+    <span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">()</span> </span>{
+        <span class="keyword">this</span>;        <span class="comment">//指向window</span>
+    }
+}
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>也即是说：b不能通过this访问out对象，这是一个js设计缺陷，此时可以使用var that = this;来解决</p>
+<pre><code><span class="keyword">var</span> out = {
+    a : <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">()</span> </span>{
+        <span class="comment">//...</span>
+        <span class="keyword">var</span> that = <span class="keyword">this</span>;
+        <span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">()</span> </span>{
+            <span class="keyword">this</span>;        <span class="comment">//指向window</span>
+            that;        <span class="comment">//指向out对象</span>
+        }
+    }
+}
+</code></pre><p>如上，在外部方法中给一个新变量that赋值this，此时内部函数b可以通过其外部函数a的作用域链访问that变量，也就是外部out对象</p>
+<ol>
+<li>document指整个文档    document.documentElement指元素html    document.body指元素body        可以理解为在没有querySelector之前的选择器工具替代</li>
+</ol>
 
       
     </div>
 
     <div class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/emmetUse/"> #emmetUse </a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/13/JavaScriptDom7/">JavaScriptDom7</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/09/JavaScriptDom6/">JavaScriptDom6</a>
+              <a href="/2015/06/14/JavaScriptDom9/">JavaScriptDom9</a>
             
           </div>
         </div>
@@ -328,8 +247,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/09/emmetUse/"
-               data-title="emmetUse" data-url="http://yoursite.com/2015/06/09/emmetUse/">
+          <div class="ds-thread" data-thread-key="2015/08/04/js笔记-md/"
+               data-title="js笔记.md" data-url="http://yoursite.com/2015/08/04/js笔记-md/">
           </div>
         
       </div>
@@ -434,7 +353,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#EMMET的使用"><span class="nav-number">1.</span> <span class="nav-text">EMMET的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在sublime中的安装"><span class="nav-number">1.1.</span> <span class="nav-text">在sublime中的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">1.2.</span> <span class="nav-text">使用方法</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
