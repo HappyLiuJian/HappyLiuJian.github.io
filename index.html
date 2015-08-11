@@ -201,6 +201,26 @@
 </li>
 <li><p>要使得ul水平，不仅可以利用float:left 或者absolute方法，也可以使用diplay:inline-block的方法来使得ul列表水平排列</p>
 </li>
+<li><p>textarea固定大小/禁止拖动的方式<br>resize: none;        //彻底关掉拖动功能<br>width:xxpx height:xxpx max-width:xxpx max-height:xxpx    //不能拖动但是拖动图标还在 </p>
+</li>
+<li><p>对于position为absolute或者fixed的标签元素，常常使用left: 50%; margin-left: xxpx;的技巧对他进行定位操作<br>//html5实现锚点只能使用href=”#id”,不再使用name了<br>//input标签是一个自闭合的标签，和button标签相比有很多缺点：比如不能嵌入其他元素</p>
+</li>
+<li><p>背景图片必须设置了宽度和高度才会显示出来，并且背景图片不像img标签那样可以伸缩。在不考虑浏览器兼容性的条件下，实现背景图片自适应窗口大小可以采用background-size属性，如:</p>
+<p>background-image: url(a.jpg);<br>width: 1000px;<br>height: 800px;<br>background-size: 100% auto;        //横向100% 纵向自适应</p>
+</li>
+<li><p>对于chrome来说，它的input标签在点击的时候都会有一个外部border和发光效果，这时候可以通过设置outline属性为空来取消这个效果</p>
+</li>
+<li><p>在css中，widht和height指的是内容区域的宽度和高度。增加内边距，边框和外边距不会影响内容区域的尺寸，但是会增加元素框的总尺寸。</p>
+</li>
+<li><p>浮动会让元素塌陷。即被浮动元素的父元素不具有高度。例如一个父元素包含了浮动元素，它将塌陷具有零高度。你可以按以下方法处理：</p>
+<p>在浮动元素后加个div设置clear: both; height:0,overflow:hidden<br>使用clearfix;<br>设置父元素浮动;</p>
+</li>
+<li><p>ie6不支持min-height一类的属性，这时候要做css hacking，即使用_hright属性。使用min-height属性是为了在浮动或者决定定位的会级元素没有内容时也能有一定的高度而不至于塌下去</p>
+</li>
+<li><p>当既有背景图片，又有背景颜色的时候，并且背景图片不重复，就在左边显示背景图片，没有背景图片的地方显示背景颜色。这可以通过盒子模型的3d图来理解</p>
+</li>
+<li><p>盒子模型的3d视图<br>盒子模型3D立体图：<br>从上到下<br>border<br>content + padding<br>background-image<br>background-color<br>margin<br>盒子模型尺寸：边框+外边距+内边距+盒子中的内容尺寸</p>
+</li>
 </ol>
 
         
