@@ -1,0 +1,600 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+    <meta name="description" content="HappyLiuJian's Home" />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'post'
+  };
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <title> 依赖注入最浅显的解释.md // HappyLiuJian </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">HappyLiuJian</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              依赖注入最浅显的解释.md
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-08-17
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/08/17/依赖注入最浅显的解释-md/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/17/依赖注入最浅显的解释-md/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>Spring 能有效地组织J2EE应用各层的对象。不管是控制层的Action对象，还是业务层的Service对象，还是持久层的DAO对象，都可在Spring的 管理下有机地协调、运行。Spring将各层的对象以松耦合的方式组织在一起，Action对象无须关心Service对象的具体实现，Service对 象无须关心持久层对象的具体实现，各层对象的调用完全面向接口。当系统需要重构时，代码的改写量将大大减少。</p>
+<p>上面所说的一切都得宜于Spring的核心机制，依赖注入。依赖注入让bean与bean之间以配置文件组织在一起，而不是以硬编码的方式耦合在一起。理解依赖注入</p>
+<p>依赖注入(Dependency Injection)和控制反转(Inversion of Control)是同一个概念。具体含义是:当某个角色(可能是一个Java实例，调用者)需要另一个角色(另一个Java实例，被调用者)的协助时，在 传统的程序设计过程中，通常由调用者来创建被调用者的实例。但在Spring里，创建被调用者的工作不再由调用者来完成，因此称为控制反转;创建被调用者 实例的工作通常由Spring容器来完成，然后注入调用者，因此也称为依赖注入。</p>
+<p>不管是依赖注入，还是控制反转，都说明Spring采用动态、灵活的方式来管理各种对象。对象与对象之间的具体实现互相透明。在理解依赖注入之前，看如下这个问题在各种社会形态里如何解决:一个人(Java实例，调用者)需要一把斧子(Java实例，被调用者)。</p>
+<p>(1)原始社会里，几乎没有社会分工。需要斧子的人(调用者)只能自己去磨一把斧子(被调用者)。对应的情形为:Java程序里的调用者自己创建被调用者。</p>
+<p>(2)进入工业社会，工厂出现。斧子不再由普通人完成，而在工厂里被生产出来，此时需要斧子的人(调用者)找到工厂，购买斧子，无须关心斧子的制造过程。对应Java程序的简单工厂的设计模式。</p>
+<p>(3)进入“按需分配”社会，需要斧子的人不需要找到工厂，坐在家里发出一个简单指令:需要斧子。斧子就自然出现在他面前。对应Spring的依赖注入。</p>
+<p>第一种情况下，Java实例的调用者创建被调用的Java实例，必然要求被调用的Java类出现在调用者的代码里。无法实现二者之间的松耦合。</p>
+<p>第二种情况下，调用者无须关心被调用者具体实现过程，只需要找到符合某种标准(接口)的实例，即可使用。此时调用的代码面向接口编程，可以让调用者和被调用者解耦，这也是工厂模式大量使用的原因。但调用者需要自己定位工厂，调用者与特定工厂耦合在一起。</p>
+<p>第三种情况下，调用者无须自己定位工厂，程序运行到需要被调用者时，系统自动提供被调用者实例。事实上，调用者和被调用者都处于Spring的管理下，二者之间的依赖关系由Spring提供。</p>
+<p>所谓依赖注入，是指程序运行过程中，如果需要调用另一个对象协助时，无须在代码中创建被调用者，而是依赖于外部的注入。Spring的依赖注入对调用者和被调用者几乎没有任何要求，完全支持对POJO之间依赖关系的管理。依赖注入通常有两种:</p>
+<p>·设值注入。</p>
+<p>·构造注入。<br>设值注入</p>
+<p>　　设值注入是指通过setter方法传入被调用者的实例。这种注入方式简单、直观，因而在Spring的依赖注入里大量使用。看下面代码，是Person的接口<br>//定义Person接口<br>public interface Person<br>{<br>//Person接口里定义一个使用斧子的方法<br>public void useAxe();<br>}</p>
+<p>然后是Axe的接口<br>//定义Axe接口<br>public interface Axe<br>{<br>//Axe接口里有个砍的方法<br>public void chop();<br>}</p>
+<p>Person的实现类<br>//Chinese实现Person接口</p>
+<p>public class Chinese implements Person<br>{<br>//面向Axe接口编程，而不是具体的实现类<br>private Axe axe;<br>//默认的构造器<br>public Chinese()<br>{}<br>//设值注入所需的setter方法<br>public void setAxe(Axe axe)<br>{<br>this.axe = axe;<br>}<br>//实现Person接口的useAxe方法<br>public void useAxe()<br>{<br>System.out.println(axe.chop());<br>}<br>}</p>
+<p>Axe的第一个实现类<br>//Axe的第一个实现类 StoneAxe</p>
+<p>public class StoneAxe implements Axe<br>{<br>//默认构造器<br>public StoneAxe()<br>{}<br>//实现Axe接口的chop方法<br>public String chop()<br>{<br>return “石斧砍柴好慢”;<br>}<br>}</p>
+<p>下面采用Spring的配置文件将Person实例和Axe实例组织在一起。配置文件如下所示:<br>＜!— 下面是标准的XML文件头 —＞<br>＜?xml version=”1.0” encoding=”gb2312”?＞<br>＜!— 下面一行定义Spring的XML配置文件的dtd —＞<br>“<a href="http://www.springframework.org/dtd/spring-beans.dtd&quot;＞" target="_blank" rel="external">http://www.springframework.org/dtd/spring-beans.dtd&quot;＞</a><br>＜!— 以上三行对所有的Spring配置文件都是相同的 —＞<br>＜!— Spring配置文件的根元素 —＞<br>＜BEANS＞<br>＜!—定义第一bean，该bean的id是chinese, class指定该bean实例的实现类 —＞<br>＜BEAN class=lee.Chinese id=chinese＞<br>＜!— property元素用来指定需要容器注入的属性，axe属性需要容器注入此处是设值注入，因此Chinese类必须拥有setAxe方法 —＞<br>＜property name=”axe”＞<br>＜!— 此处将另一个bean的引用注入给chinese bean —＞<br>＜REF local=””stoneAxe”/“＞<br>＜/property＞<br>＜/BEAN＞<br>＜!— 定义stoneAxe bean —＞<br>＜BEAN class=lee.StoneAxe id=stoneAxe /＞<br>＜/BEANS＞</p>
+<p>从配置文件中，可以看到Spring管理bean的灵巧性。bean与bean之间的依赖关系放在配置文件里组织，而不是写在代码里。通过配置文件的 指定，Spring能精确地为每个bean注入属性。因此，配置文件里的bean的class元素，不能仅仅是接口，而必须是真正的实现类。</p>
+<p>Spring会自动接管每个bean定义里的property元素定义。Spring会在执行无参数的构造器后、创建默认的bean实例后，调用对应 的setter方法为程序注入属性值。property定义的属性值将不再由该bean来主动创建、管理，而改为被动接收Spring的注入。</p>
+<p>每个bean的id属性是该bean的惟一标识，程序通过id属性访问bean，bean与bean的依赖关系也通过id属性完成。</p>
+<p>下面看主程序部分:<br>public class BeanTest<br>{<br>//主方法，程序的入口<br>public static void main(String[] args)throws Exception<br>{<br>//因为是独立的应用程序，显式地实例化Spring的上下文。<br>ApplicationContext ctx = new FileSystemXmlApplicationContext(“bean.xml”);<br>//通过Person bean的id来获取bean实例，面向接口编程，因此<br>//此处强制类型转换为接口类型<br>Person p = (Person)ctx.getBean(“chinese”);<br>//直接执行Person的userAxe()方法。<br>p.useAxe();<br>}<br>}</p>
+<p>程序的执行结果如下:</p>
+<p>石斧砍柴好慢</p>
+<p>主程序调用Person的useAxe()方法时，该方法的方法体内需要使用Axe的实例，但程序里没有任何地方将特定的Person实例和Axe实 例耦合在一起。或者说，程序里没有为Person实例传入Axe的实例，Axe实例由Spring在运行期间动态注入。</p>
+<p>Person实例不仅不需要了解Axe实例的具体实现，甚至无须了解Axe的创建过程。程序在运行到需要Axe实例的时候，Spring创建了Axe 实例，然后注入给需要Axe实例的调用者。Person实例运行到需要Axe实例的地方，自然就产生了Axe实例，用来供Person实例使用。</p>
+<p>调用者不仅无须关心被调用者的实现过程，连工厂定位都可以省略(真是按需分配啊!)。下面也给出使用Ant编译和运行该应用的简单脚本:<br>＜?xml version=”1.0”?＞<br>＜!— 定义编译该项目的基本信息—&gt;<br>＜PROJECT name=”spring” default=”.” basedir=”.”＞<br>＜!— 定义编译和运行该项目时所需的库文件 —＞<br>＜PATH id=classpath＞<br>＜!— 该路径下存放spring.jar和其他第三方类库 —＞<br>＜FILESET dir=../../lib＞<br>＜INCLUDE name=”*.jar” /＞<br>＜/FILESET＞<br>＜!— 同时还需要引用已经编译过的class文件—＞<br>＜PATHELEMENT path=”.” /＞<br>＜/PATH＞<br>＜!— 编译全部的java文件—＞<br>＜TARGET description=”Compile all source code” name=”compile”＞<br>＜!— 指定编译后的class文件的存放位置 —＞<br>＜JAVAC debug=”true” destdir=”.”＞<br>deprecation=”false” optimize=”false” failonerror=”true”＞<br>＜!— 指定需要编译的源文件的存放位置 —＞<br>＜SRC path=”.” /＞<br>＜!— 指定编译这些java文件需要的类库位置—＞<br>＜CLASSPATH refid=”classpath” /＞<br>＜/JAVAC＞<br>＜/TARGET＞<br>＜!— 运行特定的主程序 —＞<br>＜TARGET description=”run the main class” name=”run” depends=”compile”＞<br>＜!— 指定运行的主程序:lee.BeanTest。—＞<br>＜JAVA failonerror=”true” fork=”yes” classname=”lee.BeanTest”＞<br>＜!— 指定运行这些java文件需要的类库位置—＞<br>＜CLASSPATH refid=”classpath” /＞<br>＜/JAVA＞<br>＜/TARGET＞<br>＜/PROJECT＞</p>
+<p>如果需要改写Axe的实现类。或者说，提供另一个实现类给Person实例使用。Person接口、Chinese类都无须改变。只需提供另一个Axe的实现，然后对配置文件进行简单的修改即可。</p>
+<p>Axe的另一个实现如下:<br>//Axe的另一个实现类 SteelAxe<br>public class SteelAxe implements Axe<br>{<br>//默认构造器<br>public SteelAxe()<br>{}<br>//实现Axe接口的chop方法<br>public String chop()<br>{<br>return “钢斧砍柴真快”;<br>}<br>}</p>
+<p>然后，修改原来的Spring配置文件，在其中增加如下一行:<br>＜!— 定义一个steelAxe bean—＞<br>＜BEAN class=lee.SteelAxe id=steelAxe /&gt;</p>
+<p>该行重新定义了一个Axe的实现:SteelAxe。然后修改chinese bean的配置，将原来传入stoneAxe的地方改为传入steelAxe。也就是将<br>＜REF local=””stoneAxe”/“＞</p>
+<p>改成<br>＜REF local=””steelAxe”/“＞</p>
+<p>此时再次执行程序，将得到如下结果:</p>
+<p>钢斧砍柴真快</p>
+<p>Person与Axe之间没有任何代码耦合关系，bean与bean之间的依赖关系由Spring管理。采用setter方法为目标bean注入属性的方式，称为设值注入。</p>
+<p>业务对象的更换变得相当简单，对象与对象之间的依赖关系从代码里分离出来，通过配置文件动态管理。<br>构造注入</p>
+<p>　　所谓构造注入，指通过构造函数来完成依赖关系的设定，而不是通过setter方法。对前面代码Chinese类做简单的修改，修改后的代码如下:<br>//Chinese实现Person接口<br>public class Chinese implements Person<br>{<br>//面向Axe接口编程，而不是具体的实现类<br>private Axe axe;<br>//默认的构造器<br>public Chinese()<br>{}<br>//构造注入所需的带参数的构造器<br>public Chinse(Axe axe)<br>{<br>this.axe = axe;<br>}<br>//实现Person接口的useAxe方法<br>public void useAxe()<br>{<br>System.out.println(axe.chop());<br>}<br>}</p>
+<p>此时无须Chinese类里的setAxe方法，构造Person实例时，Spring为Person实例注入所依赖的Axe实例。构造注入的配置文件也需做简单的修改，修改后的配置文件如下:<br>＜!— 下面是标准的XML文件头 —＞<br>＜xml version=”1.0” encoding=”gb2312”?＞<br>＜!— 下面一行定义Spring的XML配置文件的dtd —＞<br>“<a href="http://www.springframework.org/dtd/spring-beans.dtd&quot;＞" target="_blank" rel="external">http://www.springframework.org/dtd/spring-beans.dtd&quot;＞</a><br>＜!— 以上三行对所有的Spring配置文件都是相同的 —＞<br>＜!— Spring配置文件的根元素 —＞<br>＜BEANS＞<br>＜!—定义第一个bean，该bean的id是chinese, class指定该bean实例的实现类 —＞<br>＜BEAN class=lee.Chinese id=chinese&gt;<br>＜/BEAN＞<br>＜!— 定义stoneAxe bean —＞<br>＜BEAN class=lee.SteelAxe id=steelAxe /&gt;<br>＜/BEANS＞</p>
+<p>执行效果与使用steelAxe设值注入时的执行效果完全一样。区别在于:创建Person实例中Axe属性的时机不同——设值注入是现创建一个默认的bean实例，然后调用对应的构造方法注入依赖关系。而构造注入则在创建bean实例时，已经完成了依赖关系的</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/04/css总结-md/">css总结.md</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/08/17/依赖注入最浅显的解释-md/"
+               data-title="依赖注入最浅显的解释.md" data-url="http://yoursite.com/2015/08/17/依赖注入最浅显的解释-md/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Liujian" />
+          <p class="site-author-name">Liujian</p>
+        </div>
+        <p class="site-description motion-element">HappyLiuJian's Home</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/HappyLiuJian" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/3267007984/profile?topnav=1&wvr=6" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/liu-jian-73-92" target="_blank">Zhihu</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Liujian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js" id="motion.global"></script>
+
+
+
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"happyliujian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>
