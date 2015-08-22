@@ -184,46 +184,11 @@
         
           <p>Spring 能有效地组织J2EE应用各层的对象。不管是控制层的Action对象，还是业务层的Service对象，还是持久层的DAO对象，都可在Spring的 管理下有机地协调、运行。Spring将各层的对象以松耦合的方式组织在一起，Action对象无须关心Service对象的具体实现，Service对 象无须关心持久层对象的具体实现，各层对象的调用完全面向接口。当系统需要重构时，代码的改写量将大大减少。</p>
 <p>上面所说的一切都得宜于Spring的核心机制，依赖注入。依赖注入让bean与bean之间以配置文件组织在一起，而不是以硬编码的方式耦合在一起。理解依赖注入</p>
-<p>依赖注入(Dependency Injection)和控制反转(Inversion of Control)是同一个概念。具体含义是:当某个角色(可能是一个Java实例，调用者)需要另一个角色(另一个Java实例，被调用者)的协助时，在 传统的程序设计过程中，通常由调用者来创建被调用者的实例。但在Spring里，创建被调用者的工作不再由调用者来完成，因此称为控制反转;创建被调用者 实例的工作通常由Spring容器来完成，然后注入调用者，因此也称为依赖注入。</p>
-<p>不管是依赖注入，还是控制反转，都说明Spring采用动态、灵活的方式来管理各种对象。对象与对象之间的具体实现互相透明。在理解依赖注入之前，看如下这个问题在各种社会形态里如何解决:一个人(Java实例，调用者)需要一把斧子(Java实例，被调用者)。</p>
-<p>(1)原始社会里，几乎没有社会分工。需要斧子的人(调用者)只能自己去磨一把斧子(被调用者)。对应的情形为:Java程序里的调用者自己创建被调用者。</p>
-<p>(2)进入工业社会，工厂出现。斧子不再由普通人完成，而在工厂里被生产出来，此时需要斧子的人(调用者)找到工厂，购买斧子，无须关心斧子的制造过程。对应Java程序的简单工厂的设计模式。</p>
-<p>(3)进入“按需分配”社会，需要斧子的人不需要找到工厂，坐在家里发出一个简单指令:需要斧子。斧子就自然出现在他面前。对应Spring的依赖注入。</p>
-<p>第一种情况下，Java实例的调用者创建被调用的Java实例，必然要求被调用的Java类出现在调用者的代码里。无法实现二者之间的松耦合。</p>
-<p>第二种情况下，调用者无须关心被调用者具体实现过程，只需要找到符合某种标准(接口)的实例，即可使用。此时调用的代码面向接口编程，可以让调用者和被调用者解耦，这也是工厂模式大量使用的原因。但调用者需要自己定位工厂，调用者与特定工厂耦合在一起。</p>
-<p>第三种情况下，调用者无须自己定位工厂，程序运行到需要被调用者时，系统自动提供被调用者实例。事实上，调用者和被调用者都处于Spring的管理下，二者之间的依赖关系由Spring提供。</p>
-<p>所谓依赖注入，是指程序运行过程中，如果需要调用另一个对象协助时，无须在代码中创建被调用者，而是依赖于外部的注入。Spring的依赖注入对调用者和被调用者几乎没有任何要求，完全支持对POJO之间依赖关系的管理。依赖注入通常有两种:</p>
-<p>·设值注入。</p>
-<p>·构造注入。<br>设值注入</p>
-<p>　　设值注入是指通过setter方法传入被调用者的实例。这种注入方式简单、直观，因而在Spring的依赖注入里大量使用。看下面代码，是Person的接口<br>//定义Person接口<br>public interface Person<br>{<br>//Person接口里定义一个使用斧子的方法<br>public void useAxe();<br>}</p>
-<p>然后是Axe的接口<br>//定义Axe接口<br>public interface Axe<br>{<br>//Axe接口里有个砍的方法<br>public void chop();<br>}</p>
-<p>Person的实现类<br>//Chinese实现Person接口</p>
-<p>public class Chinese implements Person<br>{<br>//面向Axe接口编程，而不是具体的实现类<br>private Axe axe;<br>//默认的构造器<br>public Chinese()<br>{}<br>//设值注入所需的setter方法<br>public void setAxe(Axe axe)<br>{<br>this.axe = axe;<br>}<br>//实现Person接口的useAxe方法<br>public void useAxe()<br>{<br>System.out.println(axe.chop());<br>}<br>}</p>
-<p>Axe的第一个实现类<br>//Axe的第一个实现类 StoneAxe</p>
-<p>public class StoneAxe implements Axe<br>{<br>//默认构造器<br>public StoneAxe()<br>{}<br>//实现Axe接口的chop方法<br>public String chop()<br>{<br>return “石斧砍柴好慢”;<br>}<br>}</p>
-<p>下面采用Spring的配置文件将Person实例和Axe实例组织在一起。配置文件如下所示:<br>＜!— 下面是标准的XML文件头 —＞<br>＜?xml version=”1.0” encoding=”gb2312”?＞<br>＜!— 下面一行定义Spring的XML配置文件的dtd —＞<br>“<a href="http://www.springframework.org/dtd/spring-beans.dtd&quot;＞" target="_blank" rel="external">http://www.springframework.org/dtd/spring-beans.dtd&quot;＞</a><br>＜!— 以上三行对所有的Spring配置文件都是相同的 —＞<br>＜!— Spring配置文件的根元素 —＞<br>＜BEANS＞<br>＜!—定义第一bean，该bean的id是chinese, class指定该bean实例的实现类 —＞<br>＜BEAN class=lee.Chinese id=chinese＞<br>＜!— property元素用来指定需要容器注入的属性，axe属性需要容器注入此处是设值注入，因此Chinese类必须拥有setAxe方法 —＞<br>＜property name=”axe”＞<br>＜!— 此处将另一个bean的引用注入给chinese bean —＞<br>＜REF local=””stoneAxe”/“＞<br>＜/property＞<br>＜/BEAN＞<br>＜!— 定义stoneAxe bean —＞<br>＜BEAN class=lee.StoneAxe id=stoneAxe /＞<br>＜/BEANS＞</p>
-<p>从配置文件中，可以看到Spring管理bean的灵巧性。bean与bean之间的依赖关系放在配置文件里组织，而不是写在代码里。通过配置文件的 指定，Spring能精确地为每个bean注入属性。因此，配置文件里的bean的class元素，不能仅仅是接口，而必须是真正的实现类。</p>
-<p>Spring会自动接管每个bean定义里的property元素定义。Spring会在执行无参数的构造器后、创建默认的bean实例后，调用对应 的setter方法为程序注入属性值。property定义的属性值将不再由该bean来主动创建、管理，而改为被动接收Spring的注入。</p>
-<p>每个bean的id属性是该bean的惟一标识，程序通过id属性访问bean，bean与bean的依赖关系也通过id属性完成。</p>
-<p>下面看主程序部分:<br>public class BeanTest<br>{<br>//主方法，程序的入口<br>public static void main(String[] args)throws Exception<br>{<br>//因为是独立的应用程序，显式地实例化Spring的上下文。<br>ApplicationContext ctx = new FileSystemXmlApplicationContext(“bean.xml”);<br>//通过Person bean的id来获取bean实例，面向接口编程，因此<br>//此处强制类型转换为接口类型<br>Person p = (Person)ctx.getBean(“chinese”);<br>//直接执行Person的userAxe()方法。<br>p.useAxe();<br>}<br>}</p>
-<p>程序的执行结果如下:</p>
-<p>石斧砍柴好慢</p>
-<p>主程序调用Person的useAxe()方法时，该方法的方法体内需要使用Axe的实例，但程序里没有任何地方将特定的Person实例和Axe实 例耦合在一起。或者说，程序里没有为Person实例传入Axe的实例，Axe实例由Spring在运行期间动态注入。</p>
-<p>Person实例不仅不需要了解Axe实例的具体实现，甚至无须了解Axe的创建过程。程序在运行到需要Axe实例的时候，Spring创建了Axe 实例，然后注入给需要Axe实例的调用者。Person实例运行到需要Axe实例的地方，自然就产生了Axe实例，用来供Person实例使用。</p>
-<p>调用者不仅无须关心被调用者的实现过程，连工厂定位都可以省略(真是按需分配啊!)。下面也给出使用Ant编译和运行该应用的简单脚本:<br>＜?xml version=”1.0”?＞<br>＜!— 定义编译该项目的基本信息—&gt;<br>＜PROJECT name=”spring” default=”.” basedir=”.”＞<br>＜!— 定义编译和运行该项目时所需的库文件 —＞<br>＜PATH id=classpath＞<br>＜!— 该路径下存放spring.jar和其他第三方类库 —＞<br>＜FILESET dir=../../lib＞<br>＜INCLUDE name=”*.jar” /＞<br>＜/FILESET＞<br>＜!— 同时还需要引用已经编译过的class文件—＞<br>＜PATHELEMENT path=”.” /＞<br>＜/PATH＞<br>＜!— 编译全部的java文件—＞<br>＜TARGET description=”Compile all source code” name=”compile”＞<br>＜!— 指定编译后的class文件的存放位置 —＞<br>＜JAVAC debug=”true” destdir=”.”＞<br>deprecation=”false” optimize=”false” failonerror=”true”＞<br>＜!— 指定需要编译的源文件的存放位置 —＞<br>＜SRC path=”.” /＞<br>＜!— 指定编译这些java文件需要的类库位置—＞<br>＜CLASSPATH refid=”classpath” /＞<br>＜/JAVAC＞<br>＜/TARGET＞<br>＜!— 运行特定的主程序 —＞<br>＜TARGET description=”run the main class” name=”run” depends=”compile”＞<br>＜!— 指定运行的主程序:lee.BeanTest。—＞<br>＜JAVA failonerror=”true” fork=”yes” classname=”lee.BeanTest”＞<br>＜!— 指定运行这些java文件需要的类库位置—＞<br>＜CLASSPATH refid=”classpath” /＞<br>＜/JAVA＞<br>＜/TARGET＞<br>＜/PROJECT＞</p>
-<p>如果需要改写Axe的实现类。或者说，提供另一个实现类给Person实例使用。Person接口、Chinese类都无须改变。只需提供另一个Axe的实现，然后对配置文件进行简单的修改即可。</p>
-<p>Axe的另一个实现如下:<br>//Axe的另一个实现类 SteelAxe<br>public class SteelAxe implements Axe<br>{<br>//默认构造器<br>public SteelAxe()<br>{}<br>//实现Axe接口的chop方法<br>public String chop()<br>{<br>return “钢斧砍柴真快”;<br>}<br>}</p>
-<p>然后，修改原来的Spring配置文件，在其中增加如下一行:<br>＜!— 定义一个steelAxe bean—＞<br>＜BEAN class=lee.SteelAxe id=steelAxe /&gt;</p>
-<p>该行重新定义了一个Axe的实现:SteelAxe。然后修改chinese bean的配置，将原来传入stoneAxe的地方改为传入steelAxe。也就是将<br>＜REF local=””stoneAxe”/“＞</p>
-<p>改成<br>＜REF local=””steelAxe”/“＞</p>
-<p>此时再次执行程序，将得到如下结果:</p>
-<p>钢斧砍柴真快</p>
-<p>Person与Axe之间没有任何代码耦合关系，bean与bean之间的依赖关系由Spring管理。采用setter方法为目标bean注入属性的方式，称为设值注入。</p>
-<p>业务对象的更换变得相当简单，对象与对象之间的依赖关系从代码里分离出来，通过配置文件动态管理。<br>构造注入</p>
-<p>　　所谓构造注入，指通过构造函数来完成依赖关系的设定，而不是通过setter方法。对前面代码Chinese类做简单的修改，修改后的代码如下:<br>//Chinese实现Person接口<br>public class Chinese implements Person<br>{<br>//面向Axe接口编程，而不是具体的实现类<br>private Axe axe;<br>//默认的构造器<br>public Chinese()<br>{}<br>//构造注入所需的带参数的构造器<br>public Chinse(Axe axe)<br>{<br>this.axe = axe;<br>}<br>//实现Person接口的useAxe方法<br>public void useAxe()<br>{<br>System.out.println(axe.chop());<br>}<br>}</p>
-<p>此时无须Chinese类里的setAxe方法，构造Person实例时，Spring为Person实例注入所依赖的Axe实例。构造注入的配置文件也需做简单的修改，修改后的配置文件如下:<br>＜!— 下面是标准的XML文件头 —＞<br>＜xml version=”1.0” encoding=”gb2312”?＞<br>＜!— 下面一行定义Spring的XML配置文件的dtd —＞<br>“<a href="http://www.springframework.org/dtd/spring-beans.dtd&quot;＞" target="_blank" rel="external">http://www.springframework.org/dtd/spring-beans.dtd&quot;＞</a><br>＜!— 以上三行对所有的Spring配置文件都是相同的 —＞<br>＜!— Spring配置文件的根元素 —＞<br>＜BEANS＞<br>＜!—定义第一个bean，该bean的id是chinese, class指定该bean实例的实现类 —＞<br>＜BEAN class=lee.Chinese id=chinese&gt;<br>＜/BEAN＞<br>＜!— 定义stoneAxe bean —＞<br>＜BEAN class=lee.SteelAxe id=steelAxe /&gt;<br>＜/BEANS＞</p>
-<p>执行效果与使用steelAxe设值注入时的执行效果完全一样。区别在于:创建Person实例中Axe属性的时机不同——设值注入是现创建一个默认的bean实例，然后调用对应的构造方法注入依赖关系。而构造注入则在创建bean实例时，已经完成了依赖关系的</p>
-
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/17/依赖注入最浅显的解释-md/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -295,40 +260,12 @@
 或者采用<span class="attribute">position</span>方法，进行精确定位
 注意<span class="attribute">overflow</span>方法的使用不然可能会导致内部元素溢出
 </code></pre></li>
-<li>默认样式一定要预先清除···一定要 *{margin:0; padding:0;}</li>
-<li>overflow:hidden特别有用···特别有用</li>
-<li>先考虑好元素的语义结构很重要</li>
-<li>text-indent（文本缩进用，text-indent替换padding-left，是为了防止菜单长度增加。例如：padding-left:10px; 会导致宽度也增加10px ）</li>
-<li>选择器a b代表a中的b，而a,b才代表a和b都具备相应样式</li>
-<li>float会挨着前一个float对象元素进行float，而absolute在不设置偏移的情况下会抢占前一个absolute的元素的左上角的位置，把前一个元素给遮盖</li>
-<li>absolute属性在没有设置偏移量的时候，出现在最初的位置，这个最初的位置是指父级元素的内容左上角（会根据父元素的padding等属性可能离父元素有距离），这里可以视作偏移的默认位置，之后设置偏移量，按照祖先元素中有定位的作为参考点，哪个方向设置多少就距离那个参考点多少，没有设置的方向，则就是默认的值，fixed与其基本相同，只是参考点一定为html文档</li>
-<li>行内元素没有width、height两个属性，margin和padding也只有左右方向有效果，上下都无效，设置其盒子高度可以通过line-height来设置</li>
-<li><p>垂直方向margin属性的重叠<br>已知 div 高 35px，紧邻其后的 X 元素上外边距为 15px，为该 div 设置 fixed 定位后，div与浏览器可视窗口上边界相距15px。<br>为什么呢？<br>因为X元素15px的上外边距与body的上外边距信息重叠了，所以body也跟着下移；然后，div在父元素body内，且没有设置偏移量，所以div相对其父元素body进行绝对定位（？）。</p>
-</li>
-<li><p>要使得ul水平，不仅可以利用float:left 或者absolute方法，也可以使用diplay:inline-block的方法来使得ul列表水平排列</p>
-</li>
-<li><p>textarea固定大小/禁止拖动的方式<br>resize: none;        //彻底关掉拖动功能<br>width:xxpx height:xxpx max-width:xxpx max-height:xxpx    //不能拖动但是拖动图标还在 </p>
-</li>
-<li><p>对于position为absolute或者fixed的标签元素，常常使用left: 50%; margin-left: xxpx;的技巧对他进行定位操作<br>//html5实现锚点只能使用href=”#id”,不再使用name了<br>//input标签是一个自闭合的标签，和button标签相比有很多缺点：比如不能嵌入其他元素</p>
-</li>
-<li><p>背景图片必须设置了宽度和高度才会显示出来，并且背景图片不像img标签那样可以伸缩。在不考虑浏览器兼容性的条件下，实现背景图片自适应窗口大小可以采用background-size属性，如:</p>
-<p>background-image: url(a.jpg);<br>width: 1000px;<br>height: 800px;<br>background-size: 100% auto;        //横向100% 纵向自适应</p>
-</li>
-<li><p>对于chrome来说，它的input标签在点击的时候都会有一个外部border和发光效果，这时候可以通过设置outline属性为空来取消这个效果</p>
-</li>
-<li><p>在css中，widht和height指的是内容区域的宽度和高度。增加内边距，边框和外边距不会影响内容区域的尺寸，但是会增加元素框的总尺寸。</p>
-</li>
-<li><p>浮动会让元素塌陷。即被浮动元素的父元素不具有高度。例如一个父元素包含了浮动元素，它将塌陷具有零高度。你可以按以下方法处理：</p>
-<p>在浮动元素后加个div设置clear: both; height:0,overflow:hidden<br>使用clearfix;<br>设置父元素浮动;</p>
-</li>
-<li><p>ie6不支持min-height一类的属性，这时候要做css hacking，即使用_hright属性。使用min-height属性是为了在浮动或者决定定位的会级元素没有内容时也能有一定的高度而不至于塌下去</p>
-</li>
-<li><p>当既有背景图片，又有背景颜色的时候，并且背景图片不重复，就在左边显示背景图片，没有背景图片的地方显示背景颜色。这可以通过盒子模型的3d图来理解</p>
-</li>
-<li><p>盒子模型的3d视图<br>盒子模型3D立体图：<br>从上到下<br>border<br>content + padding<br>background-image<br>background-color<br>margin<br>盒子模型尺寸：边框+外边距+内边距+盒子中的内容尺寸</p>
-</li>
 </ol>
-
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/04/css总结-md/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -398,41 +335,12 @@
 </li>
 <li><p>鼠标的位置保存在event中，clientX和clientY表示其x、y坐标</p>
 </li>
-<li><p>有三种方法能够确定浏览器窗口的尺寸（浏览器的视口，不包括工具栏和滚动条）。</p>
-</li>
 </ol>
-<p>对于Internet Explorer、Chrome、Firefox、Opera 以及 Safari：</p>
-<p>window.innerHeight - 浏览器窗口的内部高度<br>window.innerWidth - 浏览器窗口的内部宽度<br>对于 Internet Explorer 8、7、6、5：</p>
-<p>document.documentElement.clientHeight<br>document.documentElement.clientWidth<br>或者</p>
-<p>document.body.clientHeight<br>document.body.clientWidth</p>
-<ol>
-<li><p>var that = this;这个语句存在的意义是：<br>a.add(a,b);这种方式调用函数相当于在a对象里添加一个方法为add，这个add方法可以内部可以引用this访问a对象，也就是说，这个this绑定到了a;相反，var a = add(a,b);这种方式访问函数add就不是这样了，这里的add依然只是一个函数，不是对象的方法，它的this绑定到window对象(或者它的父对象),此时会出现一种情况</p>
-<p> var out = {</p>
-<pre><code>a : <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">()</span> </span>{
-    <span class="comment">//...</span>
-    <span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">()</span> </span>{
-        <span class="keyword">this</span>;        <span class="comment">//指向window</span>
-    }
-}
-</code></pre><p> }</p>
-</li>
-</ol>
-<p>也即是说：b不能通过this访问out对象，这是一个js设计缺陷，此时可以使用var that = this;来解决</p>
-<pre><code><span class="keyword">var</span> out = {
-    a : <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">()</span> </span>{
-        <span class="comment">//...</span>
-        <span class="keyword">var</span> that = <span class="keyword">this</span>;
-        <span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">()</span> </span>{
-            <span class="keyword">this</span>;        <span class="comment">//指向window</span>
-            that;        <span class="comment">//指向out对象</span>
-        }
-    }
-}
-</code></pre><p>如上，在外部方法中给一个新变量that赋值this，此时内部函数b可以通过其外部函数a的作用域链访问that变量，也就是外部out对象</p>
-<ol>
-<li>document指整个文档    document.documentElement指元素html    document.body指元素body        可以理解为在没有querySelector之前的选择器工具替代</li>
-</ol>
-
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/04/js笔记-md/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -639,147 +547,11 @@
       
         
           <h1 id="实现对象继承">实现对象继承</h1><p>javascript中的函数并没有方法签名(函数名)，所以不能实现接口继承只能支持实现继承</p>
-<h2 id="原型链">原型链</h2><p>将子原型对象等于父类型的实例，此时这个原型对象包含指向父类型对象的指针</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span><span class="params">()</span> </span>{                        <span class="comment">/*使用构造函数和原型组合的方法构造对象*/</span>
-    <span class="keyword">this</span>.name = <span class="string">"liujian"</span>;
-}
-
-SuperType.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
-    <span class="keyword">return</span> <span class="keyword">this</span>.name;
-}
-
-<span class="function"><span class="keyword">function</span> <span class="title">subType</span><span class="params">()</span> </span>{
-    <span class="keyword">this</span>.age = <span class="number">20</span>;
-}
-
-subType.prototype = <span class="keyword">new</span> SuperType();        <span class="comment">//子原型对象等于父类型的实例,实现原型链继承关系</span>
-
-subType.prototype.getAge = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{        <span class="comment">//这里不能用对象字面量的形式书写subType.prototype对象，否则整个对象都会重写，导致原型链破坏</span>
-    <span class="keyword">return</span> <span class="keyword">this</span>.age;
-}
-
-<span class="comment">/*不能写为
-subType.prototype = {
-    getAge : function() {
-        return this.name;
-    }
-}*/</span>
-
-<span class="keyword">var</span> a = <span class="keyword">new</span> subType();
-alert(a.getName());                <span class="comment">//"liujian"</span>
-</code></pre><p>和原型模式的缺点一样，继承会导致每一个子对象实例都共享父对象类型中的引用类型的值(比如Array等)</p>
-<h2 id="借用构造函数">借用构造函数</h2><pre><code><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span><span class="params">()</span> </span>{
-    <span class="keyword">this</span>.colors = [<span class="string">"red"</span>,<span class="string">"green"</span>];
-}
-
-<span class="function"><span class="keyword">function</span> <span class="title">Subtype</span><span class="params">()</span> </span>{
-    SuperType.call(<span class="keyword">this</span>);        <span class="comment">//利用call或者apply改变函数的作用域，实现超类型的构造函数创建</span>
-}
-
-<span class="keyword">var</span> i1 = <span class="keyword">new</span> Subtype();
-i1.colors.push(<span class="string">"yellow"</span>);
-alert(i1.colors);            <span class="comment">//"red","green","yellow"</span>
-<span class="keyword">var</span> i2 = <span class="keyword">new</span> Subtype();
-alert(i2.colors);            <span class="comment">//"red","green"</span>
-</code></pre><p>使用构造函数的优点是可以传递参数，但是函数复用就无效了</p>
-<h2 id="组合继承">组合继承</h2><p>包含了二者的优点，与组合构造一样使用最多</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span><span class="params">(name)</span> </span>{
-    <span class="keyword">this</span>.name = name;
-    <span class="keyword">this</span>.colors = [<span class="string">"red"</span>,<span class="string">"green"</span>];
-}
-
-SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
-    <span class="keyword">return</span> <span class="keyword">this</span>.name;
-};
-
-<span class="function"><span class="keyword">function</span> <span class="title">Subtype</span><span class="params">(name,age)</span> </span>{
-    SuperType.call(<span class="keyword">this</span>,name);        <span class="comment">//利用call或者apply改变函数的作用域，实现超类型的构造函数创建</span>
-    <span class="keyword">this</span>.age;
-}
-
-Subtype.prototype = <span class="keyword">new</span> SuperType();    <span class="comment">//继承方法</span>
-
-Subtype.prototype.sayAge() {
-    <span class="keyword">return</span> <span class="keyword">this</span>.age;
-}
-
-<span class="keyword">var</span> i1 = <span class="keyword">new</span> Subtype(<span class="string">"liujian"</span>,<span class="number">20</span>);
-i1.colors.push(<span class="string">"yellow"</span>);
-alert(i1.colors);            <span class="comment">//"red","green","yellow"</span>
-i1.sayName;                    <span class="comment">//"liujian"</span>
-i1.sayAge;                    <span class="comment">//20</span>
-<span class="keyword">var</span> i2 = <span class="keyword">new</span> Subtype(<span class="string">"gene"</span>,<span class="number">20</span>);
-alert(i2.colors);            <span class="comment">//"red","green"</span>
-i2.sayName;                    <span class="comment">//gene</span>
-i2.sayAge;                    <span class="comment">//20</span>
-</code></pre><h2 id="原型式继承">原型式继承</h2><p>借助已有的对象创建新对象</p>
-<pre><code>function object(o) {            //函数的作用是传入一个已有的对象，返回一个把这个已有对象作为原型的新对象
-    function F() {}
-    F.prototype = o;
-    return F{};
-}
-
-var <span class="keyword">person</span> = {
-    name : <span class="string">"gene"</span>;
-    friends : <span class="comment">["liujian","hah"]</span>;
-};
-
-var <span class="keyword">Person</span> = object(<span class="keyword">person</span>);    //相当于创建了<span class="keyword">person</span>对象的两个副本对象
-<span class="keyword">Person</span>.name = <span class="string">"gene"</span>;
-<span class="keyword">Person</span>.friends.push(<span class="string">"jji"</span>);
-
-var Person2 = object(<span class="keyword">person</span>);
-Person2.name = <span class="string">"bob"</span>;
-Person2.friends.push(<span class="string">"lini"</span>);
-
-alert(<span class="keyword">person</span>.friends);        //<span class="string">"liujian"</span>,<span class="string">"hah"</span>,<span class="string">"jji"</span>,<span class="string">"lini"</span>
-</code></pre><p>可以利用object.create()方法规范原型式继承</p>
-<h2 id="寄生式继承">寄生式继承</h2><p>把继承过程包裹在一个函数内部</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">createAnother</span><span class="params">(original)</span> </span>{
-    <span class="keyword">var</span> <span class="keyword">clone</span> = object(original);
-    <span class="keyword">clone</span>.sayHi = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
-        alert(<span class="string">"hi"</span>);
-    };
-    <span class="keyword">return</span> <span class="keyword">clone</span>;
-}
-</code></pre><h2 id="寄生组合式继承">寄生组合式继承</h2><p>组合继承的不足在于无论什么情况下都会调用两次父类型的构造函数（一次在Subtype.prototype = new SuperType();，另一次在SuperType.call(this,name);</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inheritPrototype</span><span class="params">(subType,superType)</span> </span>{
-    <span class="keyword">var</span> prototype = object(superType.prototype);        <span class="comment">//创建父类型的副本</span>
-    prototype.constructor = subType;                    <span class="comment">//为副本添加constructor，弥补重写原型失去的默认constructor值</span>
-    subType.prototype = prototype;                        <span class="comment">//指定对象副本赋值给子类型的原型，实现继承</span>
-}
-
-<span class="function"><span class="keyword">function</span> <span class="title">SuperType</span><span class="params">(name)</span> </span>{
-    <span class="keyword">this</span>.name = name;
-    <span class="keyword">this</span>.colors = [<span class="string">"red"</span>,<span class="string">"green"</span>];
-}
-
-SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
-    <span class="keyword">return</span> <span class="keyword">this</span>.name;
-};
-
-<span class="function"><span class="keyword">function</span> <span class="title">Subtype</span><span class="params">(name,age)</span> </span>{
-    SuperType.call(<span class="keyword">this</span>,name);        <span class="comment">//利用call或者apply改变函数的作用域，实现超类型的构造函数创建</span>
-    <span class="keyword">this</span>.age;
-}
-
-inheritPrototype(SubType,SuperType);    <span class="comment">//新的寄生组合形式继承方法</span>
-<span class="comment">//Subtype.prototype = new SuperType();    //原来的继承方法</span>
-
-Subtype.prototype.sayAge() {
-    <span class="keyword">return</span> <span class="keyword">this</span>.age;
-}
-
-<span class="keyword">var</span> i1 = <span class="keyword">new</span> Subtype(<span class="string">"liujian"</span>,<span class="number">20</span>);
-i1.colors.push(<span class="string">"yellow"</span>);
-alert(i1.colors);            <span class="comment">//"red","green","yellow"</span>
-i1.sayName;                    <span class="comment">//"liujian"</span>
-i1.sayAge;                    <span class="comment">//20</span>
-<span class="keyword">var</span> i2 = <span class="keyword">new</span> Subtype(<span class="string">"gene"</span>,<span class="number">20</span>);
-alert(i2.colors);            <span class="comment">//"red","green"</span>
-i2.sayName;                    <span class="comment">//gene</span>
-i2.sayAge;                    <span class="comment">//20</span>
-</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/13/JavaScriptDom7/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -848,7 +620,7 @@ i2.sayAge;                    <span class="comment">//20</span>
 <ul>
 <li>按Ctrl+`调出sublime text的console</li>
 <li><p>粘贴以下代码到底部命令行并回车</p>
-<p>  import urllib2,os;pf=’Package Control.sublime-package’;ipp=sublime.installedpackagespath();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),’wb’).write(urllib2.urlopen(‘<a href="http://sublime.wbond.net/&#39;+pf.replace(" target="_blank" rel="external">http://sublime.wbond.net/&#39;+pf.replace(</a>‘ ‘,’%20’)).read())</p>
+<p>  import urllib2,os;pf=’Package Control.sublime-package’;ipp=sublime.installedpackagespath();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),’wb’).write(urllib2.urlopen(‘<a href="http://sublime.wbond.net/&#39;+pf.replace(">http://sublime.wbond.net/&#39;+pf.replace(</a>‘ ‘,’%20’)).read())</p>
 </li>
 <li><p>重启Sublime Text</p>
 </li>
@@ -859,104 +631,11 @@ i2.sayAge;                    <span class="comment">//20</span>
 <li>按Ctrl+Shift+P命令板</li>
 <li>输入pci然后选择install Package，然后输入emmet找到 Emmet Css Snippets，点击就可以自动完成安装</li>
 </ul>
-<h2 id="使用方法">使用方法</h2><p>直接在编辑器中输入HTML或CSS的代码的缩写，然后按tab键就可以拓展为完整的代码片段</p>
-<p>语法：</p>
-<p>后代 &gt;<br>如: nav&gt;ul&gt;li</p>
-<pre><code><span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;ul&gt;</span>
-        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;/ul&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-</code></pre><p>兄弟 +<br>如: div+b+bq</p>
-<pre><code><span class="tag">&lt;div&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;b&gt;</span><span class="tag">&lt;/b&gt;</span>
-<span class="tag">&lt;q&gt;</span><span class="tag">&lt;/q&gt;</span>
-</code></pre><p>上级 ^<br>如: div+div&gt;p&gt;q+em^bq</p>
-<pre><code><span class="tag">&lt;div&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;p&gt;</span><span class="tag">&lt;q&gt;</span><span class="tag">&lt;/q&gt;</span><span class="tag">&lt;em&gt;</span><span class="tag">&lt;/em&gt;</span><span class="tag">&lt;/p&gt;</span>
-    <span class="tag">&lt;blockquote&gt;</span><span class="tag">&lt;/blockquote&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-</code></pre><p>如: div+div&gt;p&gt;q+em^^bq</p>
-<pre><code><span class="tag">&lt;div&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;p&gt;</span><span class="tag">&lt;q&gt;</span><span class="tag">&lt;/q&gt;</span><span class="tag">&lt;em&gt;</span><span class="tag">&lt;/em&gt;</span><span class="tag">&lt;/p&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;blockquote&gt;</span><span class="tag">&lt;/blockquote&gt;</span>
-</code></pre><p>分组 ()<br>如: div&gt;(header&gt;ul&gt;li*2&gt;a)+footer&gt;p</p>
-<pre><code><span class="tag">&lt;<span class="title">div</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">header</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
-            <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
-            <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
-        <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">header</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">footer</span>&gt;</span>
-        <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">footer</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-</code></pre><p>如: (div&gt;dl&gt;(dt+dd)*3)+footer&gt;p</p>
-<pre><code><span class="tag">&lt;div&gt;</span>
-    <span class="tag">&lt;dl&gt;</span>
-        <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;/dt&gt;</span>
-        <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;/dd&gt;</span>
-        <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;/dt&gt;</span>
-        <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;/dd&gt;</span>
-        <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;/dt&gt;</span>
-        <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;/dd&gt;</span>
-    <span class="tag">&lt;/dl&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;footer&gt;</span>
-    <span class="tag">&lt;p&gt;</span><span class="tag">&lt;/p&gt;</span>
-<span class="tag">&lt;/footer&gt;</span>
-</code></pre><p>乘法 <em><br>如: ul&gt;li</em>5</p>
-<pre><code><span class="tag">&lt;ul&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;/li&gt;</span>
-<span class="tag">&lt;/ul&gt;</span>
-</code></pre><p>自增符号 $<br>如: ul&gt;li.item$*5</p>
-<pre><code>&lt;ul&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item1"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item2"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item3"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item4"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item5"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-&lt;/ul&gt;
-</code></pre><p>如: h$[title=item$]{Header $}*3</p>
-<pre><code><span class="tag">&lt;<span class="title">h1</span> <span class="attribute">title</span>=<span class="value">"item1"</span>&gt;</span>Header 1<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
-<span class="tag">&lt;<span class="title">h2</span> <span class="attribute">title</span>=<span class="value">"item2"</span>&gt;</span>Header 2<span class="tag">&lt;/<span class="title">h2</span>&gt;</span>
-<span class="tag">&lt;<span class="title">h3</span> <span class="attribute">title</span>=<span class="value">"item3"</span>&gt;</span>Header 3<span class="tag">&lt;/<span class="title">h3</span>&gt;</span>
-</code></pre><p>如: ul&gt;li.item$$$*5</p>
-<pre><code>&lt;ul&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item001"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item002"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item003"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item004"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item005"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-&lt;/ul&gt;
-</code></pre><p>如: ul&gt;li.item$@-*5</p>
-<pre><code>&lt;ul&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item5"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item4"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item3"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item2"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-    &lt;<span class="keyword">li</span> <span class="keyword">class</span>=<span class="string">"item1"</span>&gt;&lt;/<span class="keyword">li</span>&gt;
-&lt;/ul&gt;
-</code></pre><p>ID和类属性<br>ID：#header</p>
-<pre><code>&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"header"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
-</code></pre><p>类: .title</p>
-<pre><code>&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"title"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
-</code></pre><p>自定义属性<br>p[title=”Hello world”]</p>
-<pre><code><span class="tag">&lt;<span class="title">p</span> <span class="attribute">title</span>=<span class="value">"Hello world"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-</code></pre><p>文本：{}<br>a{Click me}</p>
-<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span>Click me<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
-</code></pre><p>所有未知的缩写都会转换成标签，例如，foo → <foo></foo></p>
-<p>……</p>
-<p>注：主要转自W3C <a href="http://www.w3cplus.com/tools/emmet-cheat-sheet.html" target="_blank" rel="external">Pet的博客</a></p>
-
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/09/emmetUse/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1226,7 +905,7 @@ i2.sayAge;                    <span class="comment">//20</span>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
