@@ -75,7 +75,7 @@
     </p>
   <p class="article-time">
     <time datetime="2015-08-04T12:37:24.000Z" itemprop="datePublished">2015-08-04</time>
-    更新日期:<time datetime="2015-08-22T08:27:20.860Z" itemprop="dateModified">2015-08-22</time>
+    更新日期:<time datetime="2015-09-13T02:32:59.178Z" itemprop="dateModified">2015-09-13</time>
     
   </p>
 </header>
@@ -126,7 +126,88 @@
 }
 </code></pre><p>如上，在外部方法中给一个新变量that赋值this，此时内部函数b可以通过其外部函数a的作用域链访问that变量，也就是外部out对象</p>
 <ol>
-<li>document指整个文档    document.documentElement指元素html    document.body指元素body        可以理解为在没有querySelector之前的选择器工具替代</li>
+<li><p>document指整个文档    document.documentElement指元素html    document.body指元素body        可以理解为在没有querySelector之前的选择器工具替代</p>
+</li>
+<li><p>写代码时遇到了一个很弱智的问题···在没有window.onload的情况下，把js代码写在了头部···导致各种没有这个元素存在的问题····而且window.onload里面不能写多个函数，并且前面的函数还要调用后面的函数的情况，这样会提示函数没有定义。应该在window.load外面写需要用到的函数</p>
+</li>
+<li><p>++ — 自增自减单元运算符会对运算对象元素直接起作用而不用赋值接收</p>
+<ul>
+<li><ul>
+<li>符号单元操作符则不会，必须有一个接收元素才能体现</li>
+</ul>
+<p>var a = ‘1’;<br>var b = +a;<br>console.log(typeof(a));<br>console.log(typeof(b));<br>//a为String、b为numver</p>
+<p>var c = 1;<br>++c;<br>console.log(c);<br>//c已经成为2</p>
+</li>
+</ul>
+</li>
+<li><p>=== 是比较两边的类型和值  == 只比较两边的值</p>
+</li>
+<li><p>js是一个弱类型语言，这一点也体现在传入参数上，如下：</p>
+<p> function test(a) {</p>
+<pre><code>//<span class="operator"><span class="keyword">do</span> something;</span>
+</code></pre><p> }</p>
+<p> test(a,b,c);</p>
+<p> 我定义一个参数的函数test，但是在调用的时候可以传入多个参数，此时test会接收所有的参数，但是只识别第一个参数a作为实际使用的参数，为什么说此时所有参数都已经接收了呢，如下：</p>
+<p> function test(a) {</p>
+<pre><code><span class="comment">//do something;</span>
+<span class="keyword">var</span> b = <span class="number">0</span>;
+<span class="keyword">switch</span>(<span class="built_in">arguments</span>.length) {
+<span class="comment">//这里把情况分前三种提出来是为了性能考虑</span>
+    <span class="keyword">case</span> <span class="number">1</span>:
+        b = b + a;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        b = b + a + <span class="built_in">arguments</span>[<span class="number">1</span>];
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">3</span>:
+        b = b + a + <span class="built_in">arguments</span>[<span class="number">1</span>] + <span class="built_in">arguments</span>[<span class="number">2</span>];
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        <span class="keyword">var</span> len = <span class="built_in">arguments</span>.length;
+        <span class="keyword">var</span> args = <span class="keyword">new</span> <span class="built_in">Array</span>[len-<span class="number">1</span>];
+        <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; len; i++) {
+            args[i - <span class="number">1</span>] = <span class="built_in">arguments</span>[i];
+        }
+        <span class="built_in">console</span>.log(args);
+}
+</code></pre><p> }</p>
+<p> test(a,b,c);</p>
+<p> 此时不管传入几个参数都是有效的，这点与java、c等语言不同</p>
+</li>
+<li><p>个人写一个js脚本的时候，开始最好直接上一个;号，这样可以避免连续引用js脚本的时候上一个脚本没有封装好;，导致报错</p>
+</li>
+<li><p>改变this指针指向的三种方法</p>
+<p>规则0：函数本身是一个特殊类型，大多数时候，可以认为是一个变量。<br>复制代码 代码如下:</p>
+<p>function a()<br>{<br>alert(this);<br>}<br>或者<br>var a = function()<br>{<br>alert(this);<br>} </p>
+<p>都可以认为是创建了一个变量，这个变量的值就是一个函数。<br>规则1：如果一个函数，是某个对象的key 值，那么，this就指向这个对象。<br>这个规则很好理解：<br>复制代码 代码如下:</p>
+<p>var a = function(obj)<br>{<br>alert(this == obj);<br>}<br>var o = {};<br>o.afun = a;<br>o.afun(o); //true </p>
+<p>函数就是一个变量，但是可以绑定到某个对象的下面，并且 this 就会指向 o 对象。<br>这里必须要注意，没有被绑定的对象，默认this 指向window 对象。<br>举几个例子：<br>复制代码 代码如下:</p>
+<p>function a()<br>{<br>//this == window<br>}<br>function a()<br>{<br>//this == window<br>function b()<br>{<br>//this == window<br>}<br>} </p>
+<p>还必须注意的是，绑定没有传递性，比如上面的嵌套的函数，a绑定到 o 对象，那么就影响了a函数，<br>而b 还是指向到window。<br>规则2：如果函数new 了一下，那么就会创建一个对象，并且this 指向 新创建的对象。<br>var o = new a();<br>这个时候，o 不再是个函数，而实际上，可以认为是这样的一个过程。<br>创建一个对象 var o = {};<br>然后，把this 指向 o，通过this 把 o 给初始化了。<br>规则3：通过apply 可以改变this 的指向<br>这个apply 的绑定就更加的灵活了，实际上，apply的功能和下面的功能差不多。<br>复制代码 代码如下:</p>
+<p>var a = function (obj)<br>{<br>alert(this == obj);<br>};<br>obj.fun = a;<br>obj.fun(obj);//true </p>
+<p>简单的，可以a.apply(obj, [obj]); // true<br>javascript 的this 可以简单的认为是 后期绑定，没有地方绑定的时候，默认绑定window。<br>综合实例：<br>jquery 里面有一个很常用的函数 each，可以把循环的对象元素绑定到this，方便操作。<br>这里只是简单的做个演示：<br>代码<br>复制代码 代码如下:</p>
+<p>function each(tagName, callback)<br>{<br>var lists = document.getElementsByTagName(tagName);<br>for (var i = 0; i &lt; lists.length; i++)<br>{<br>callback.apply(lists[i]);<br>}<br>}<br>each(“a”,<br>function ()<br>{<br>this.style.color = “red”;<br>}<br>); </p>
+<p>可以看到我头部导航的链接都变成红色了。</p>
+</li>
+<li><p>border；none和border: 0的区别</p>
+<p>前者理论上更节省内存，因为后者会对border: color等进行渲染<br>后者兼容ie6、7</p>
+</li>
+<li><p>当判断对象属性存在时，hasOwnProperty是唯一可以依赖的方法。这里还要提醒下，当我们使用 for in loop来遍历对象时，使用hasOwnProperty 将会很好地避免来自原型对象扩展所带来的困扰。</p>
+<p>hasOwnProperty 方法是 Javascript 中唯一一个处理对象属性而不会往上遍历原型链的</p>
+<p>// Poisoning Object.prototype<br>Object.prototype.bar = 1;<br>var foo = {goo: undefined};</p>
+<p>foo.bar; // 1<br>‘bar’ in foo; // true</p>
+<p>foo.hasOwnProperty(‘bar’); // false<br>foo.hasOwnProperty(‘goo’); // true</p>
+<p>在这里，只有 hasOwnProperty 能给出正确答案，这在遍历一个对象的属性时是非常必要的。Javascript 中没有其他方法能判断一个属性是定义在对象本身还是继承自原型链</p>
+</li>
+<li><p>判断是否是string类型</p>
+<p>//判断是否是String<br>function isString(str){</p>
+<pre><code>return <span class="list">(<span class="list">(<span class="keyword">str</span> instanceof String)</span> || <span class="list">(<span class="keyword">typeof</span> str)</span>.toLowerCase<span class="list">()</span> == <span class="quoted">'string</span>')</span><span class="comment">;</span>
+</code></pre><p>}</p>
+<p>//测试案例<br>var s1 = “abc”,</p>
+<pre><code>s2 = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"abc"</span>);
+</code></pre><p>console.log(isString(s1)+’\n’);<br>console.log(isString(s2));</p>
+<p>JS里面String的初始化有两种方式：直接赋值和String对象的实例化<br>var str = “abc”;<br>var str = new String(“abc”);<br>通常来说判断一个对象的类型使用typeof，但是在new String的情况下的结果会是object<br>此时需要通过instanceof来判断</p>
+</li>
 </ol>
   
 	</div>
