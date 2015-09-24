@@ -1,0 +1,477 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>DOM扩展.md | HappyLiuJian</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Liujian">
+    
+    <meta name="description" content="尽管DOM作为API已经非常完善了，但为了实现更多的功能，仍然会有一些标准或专有的扩展。对 DOM 的两个主要的扩展是 Selectors API（选择符 API）和 HTML5，还有一个不那么引人瞩目的 Element Traversal（元素遍历）规范，为 DOM 添加了一些属性。选择符APIS">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="HappyLiuJian" title="HappyLiuJian"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="HappyLiuJian">HappyLiuJian</a></h1>
+				<h2 class="blog-motto">HappyLiuJian&#39;s Home</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/09/24/DOM扩展-md/" title="DOM扩展.md" itemprop="url">DOM扩展.md</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Liujian">Liujian</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-09-24T13:42:28.000Z" itemprop="datePublished">2015-09-24</time>
+    更新日期:<time datetime="2015-09-24T13:45:59.504Z" itemprop="dateModified">2015-09-24</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目錄</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#尽管DOM作为API已经非常完善了，但为了实现更多的功能，仍然会有一些标准或专有的扩展。对_DOM_的两个主要的扩展是_Selectors_API（选择符_API）和_HTML5，还有一个不那么引人瞩目的_Element_Traversal（元素遍历）规范，为_DOM_添加了一些属性。"><span class="toc-number">1.</span> <span class="toc-text">尽管DOM作为API已经非常完善了，但为了实现更多的功能，仍然会有一些标准或专有的扩展。对 DOM 的两个主要的扩展是 Selectors API（选择符 API）和 HTML5，还有一个不那么引人瞩目的 Element Traversal（元素遍历）规范，为 DOM 添加了一些属性。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#选择符API"><span class="toc-number">1.1.</span> <span class="toc-text">选择符API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#matchesSelector操作"><span class="toc-number">1.2.</span> <span class="toc-text">matchesSelector操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.3.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#而使用_Element_Traversal_新增的元素，代码会更简洁。"><span class="toc-number">1.4.</span> <span class="toc-text">而使用 Element Traversal 新增的元素，代码会更简洁。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#html5"><span class="toc-number">1.5.</span> <span class="toc-text">html5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#classList属性"><span class="toc-number">1.6.</span> <span class="toc-text">classList属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用classList属性"><span class="toc-number">1.7.</span> <span class="toc-text">使用classList属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#焦点管理"><span class="toc-number">1.8.</span> <span class="toc-text">焦点管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTMLDocument变化"><span class="toc-number">1.9.</span> <span class="toc-text">HTMLDocument变化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插入标记"><span class="toc-number">1.10.</span> <span class="toc-text">插入标记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用_innerHTML_属性也有一些限制。比如，在大多数浏览器中，通过_innerHTML_插入元素并不会执行其中的脚本，因此DOM1级中的动态脚本添加不使用innerHTML形式，而采用传统的添加文本子节点的方式"><span class="toc-number">1.11.</span> <span class="toc-text">使用 innerHTML 属性也有一些限制。比如，在大多数浏览器中，通过 innerHTML 插入元素并不会执行其中的脚本，因此DOM1级中的动态脚本添加不使用innerHTML形式，而采用传统的添加文本子节点的方式</h2><h2 id="outerHTML属性">outerHTML属性</h2><p>在读模式下， outerHTML 返回调用它的元素及所有子节点的 HTML 标签。在写模式下，outerHTML会根据指定的HTML字符串创建新的DOM子树，然后用这个DOM子树完全替换调用元素。下面是一个例子</p>
+<p>使用 outerHTML 属性以下面这种方式设置值：<br>div.outerHTML = “<p>This is a paragraph.</p>“;<br>这行代码完成的操作与下面这些 DOM 脚本代码一样：<br>var p = document.createElement(“p”);<br>p.appendChild(document.createTextNode(“This is a paragraph.”));<br>div.parentNode.replaceChild(p, div);</p>
+<h2 id="insertAdjacentHTML()方法">insertAdjacentHTML()方法</h2><p>四种插入方式，其中第一个参数一定要是四个参数中的一个<br>//作为前一个同辈元素插入<br>element.insertAdjacentHTML(“beforebegin”, “<p>Hello world!</p>“);<br>//作为第一个子元素插入<br>element.insertAdjacentHTML(“afterbegin”, “<p>Hello world!</p>“);<br>//作为最后一个子元素插入<br>element.insertAdjacentHTML(“beforeend”, “<p>Hello world!</p>“);<br>//作为后一个同辈元素插入<br>element.insertAdjacentHTML(“afterend”, “<p>Hello world!</p>“);</p>
+<p>scrollIntoView()可以在所有HTML元素上调用，通过滚动浏览器窗口或某个容器元素，调用元素就可以出现在视口中</p>
+<h2 id="innerText和outerText">innerText和outerText</h2><p>读模式：获取元素节点中的文本内容并拼接显示<br>写模式：更改所有内容为输入的文本参数</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"content"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>This is a <span class="tag">&lt;<span class="title">strong</span>&gt;</span>paragraph<span class="tag">&lt;/<span class="title">strong</span>&gt;</span> with a list following it.<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</code></pre><p>使用div.innerText属性返回一以下<br>This is a paragraph with a list following it.<br>Item 1<br>Item 2<br>Item 3</p>
+</span></a></li></ol></li></ol>
+		</div>
+		
+		<h1 id="尽管DOM作为API已经非常完善了，但为了实现更多的功能，仍然会有一些标准或专有的扩展。对_DOM_的两个主要的扩展是_Selectors_API（选择符_API）和_HTML5，还有一个不那么引人瞩目的_Element_Traversal（元素遍历）规范，为_DOM_添加了一些属性。">尽管DOM作为API已经非常完善了，但为了实现更多的功能，仍然会有一些标准或专有的扩展。对 DOM 的两个主要的扩展是 Selectors API（选择符 API）和 HTML5，还有一个不那么引人瞩目的 Element Traversal（元素遍历）规范，为 DOM 添加了一些属性。</h1><h2 id="选择符API">选择符API</h2><p>Selectors API Level 1 的核心是两个方法querySelector()和querySelectorAll()。在兼容的浏览器中，可以通过 Document 及 Element 类型的实例调用它们</p>
+<pre><code><span class="comment">//取得 body 元素</span>
+<span class="keyword">var</span> body = <span class="built_in">document</span>.<span class="built_in">querySelector</span>(<span class="string">"body"</span>);
+<span class="comment">//取得 ID 为"myDiv"的元素</span>
+<span class="keyword">var</span> myDiv = <span class="built_in">document</span>.<span class="built_in">querySelector</span>(<span class="string">"#myDiv"</span>);
+<span class="comment">//取得类为"selected"的第一个元素</span>
+<span class="keyword">var</span> selected = <span class="built_in">document</span>.<span class="built_in">querySelector</span>(<span class="string">".selected"</span>);
+<span class="comment">//取得类为"button"的第一个图像元素</span>
+<span class="keyword">var</span> img = <span class="built_in">document</span>.body.<span class="built_in">querySelector</span>(<span class="string">"img.button"</span>);
+
+<span class="comment">//取得某&lt;div&gt;中的所有&lt;em&gt;元素（类似于 getElementsByTagName("em")）</span>
+<span class="keyword">var</span> ems = <span class="built_in">document</span>.getElementById(<span class="string">"myDiv"</span>).<span class="built_in">querySelectorAll</span>(<span class="string">"em"</span>);
+<span class="comment">//取得类为"selected"的所有元素</span>
+<span class="keyword">var</span> selecteds = <span class="built_in">document</span>.<span class="built_in">querySelectorAll</span>(<span class="string">".selected"</span>);
+<span class="comment">//取得所有&lt;p&gt;元素中的所有&lt;strong&gt;元素</span>
+<span class="keyword">var</span> strongs = <span class="built_in">document</span>.<span class="built_in">querySelectorAll</span>(<span class="string">"p strong"</span>);
+<span class="comment">//取出NodeList中的每一个元素</span>
+<span class="keyword">var</span> i, len, strong;
+<span class="keyword">for</span> (i=<span class="number">0</span>, len=strongs.length; i &lt; len; i++){
+    strong = strongs[i]; <span class="comment">//或者 strongs.item(i)</span>
+    strong.className = <span class="string">"important"</span>;
+}
+</code></pre><h2 id="matchesSelector操作">matchesSelector操作</h2><pre><code><span class="function"><span class="keyword">function</span> <span class="title">matchesSelector</span><span class="params">(element, selector)</span>{</span>
+<span class="keyword">if</span> <span class="params">(element.matchesSelector)</span>{
+return element.matchesSelector<span class="params">(selector)</span>;
+} <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(element.msMatchesSelector)</span>{
+return element.msMatchesSelector<span class="params">(selector)</span>;
+} <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(element.mozMatchesSelector)</span>{
+return element.mozMatchesSelector<span class="params">(selector)</span>;
+} <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(element.webkitMatchesSelector)</span>{
+return element.webkitMatchesSelector<span class="params">(selector)</span>;
+} <span class="keyword">else</span> {
+throw new Error<span class="params">(<span class="string">"Not supported."</span>)</span>;
+}
+}
+<span class="keyword">if</span> <span class="params">(matchesSelector<span class="params">(document.body, <span class="string">"body.page1"</span>)</span>)</span>{
+<span class="comment">//执行操作</span>
+}
+</code></pre><h2 id="元素遍历">元素遍历</h2><p>下面来看一个例子。过去，要跨浏览器遍历某元素的所有子元素，需要像下面这样写代码。</p>
+<pre><code><span class="variable"><span class="keyword">var</span> i,len,
+child</span> = element.firstChild;
+<span class="keyword">while</span>(child != element.lastChild){
+    <span class="keyword">if</span> (child.nodeType == <span class="number">1</span>){ <span class="comment">//检查是不是元素</span>
+        processChild(child);
+}
+child = child.nextSibling;
+}
+</code></pre><h2 id="而使用_Element_Traversal_新增的元素，代码会更简洁。">而使用 Element Traversal 新增的元素，代码会更简洁。</h2><pre><code><span class="variable"><span class="keyword">var</span> i,
+len,
+child</span> = element.firstElementChild;
+<span class="keyword">while</span>(child != element.lastElementChild){
+    processChild(child); <span class="comment">//已知其是元素</span>
+    child = child.nextElementSibling;
+}
+</code></pre><h2 id="html5">html5</h2><p>getElementsByClassName()方法<br>//取得所有类中包含”username”和”current”的元素，类名的先后顺序无所谓<br>var allCurrentUsernames = document.getElementsByClassName(“username current”);<br>//取得 ID 为”myDiv”的元素中带有类名”selected”的所有元素<br>var selected = document.getElementById(“myDiv”).getElementsByClassName(“selected”);</p>
+<h2 id="classList属性">classList属性</h2><p>过去，在操作类名时，需要通过 className 属性添加、删除和替换类名</p>
+<pre><code>&lt;div <span class="keyword">class</span>=<span class="string">"bd user disabled"</span>&gt;...&lt;/div&gt;
+<span class="comment">//删除"user"类</span>
+<span class="comment">//首先，取得类名字符串并拆分成数组</span>
+<span class="keyword">var</span> classNames = div.className.split(/\s+/);
+<span class="comment">//找到要删的类名</span>
+<span class="keyword">var</span> pos = -<span class="number">1</span>,i,len;
+<span class="keyword">for</span> (i=<span class="number">0</span>, len=classNames.length; i &lt; len; i++){
+    <span class="keyword">if</span> (classNames[i] == <span class="string">"user"</span>){
+        pos = i;
+        <span class="keyword">break</span>;
+    }
+}
+<span class="comment">//删除类名</span>
+classNames.splice(i,<span class="number">1</span>);
+<span class="comment">//把剩下的类名拼成字符串并重新设置</span>
+div.className = classNames.<span class="keyword">join</span>(<span class="string">" "</span>);
+</code></pre><h2 id="使用classList属性">使用classList属性</h2><pre><code><span class="comment">//删除"disabled"类</span>
+div.classList.remove<span class="params">(<span class="string">"disabled"</span>)</span>;
+<span class="comment">//添加"current"类</span>
+div.classList.add<span class="params">(<span class="string">"current"</span>)</span>;
+<span class="comment">//切换"user"类</span>
+div.classList.toggle<span class="params">(<span class="string">"user"</span>)</span>;
+<span class="comment">//确定元素中是否包含既定的类名</span>
+<span class="keyword">if</span> <span class="params">(div.classList.contains<span class="params">(<span class="string">"bd"</span>)</span> &amp;&amp; !div.classList.contains<span class="params">(<span class="string">"disabled"</span>)</span>)</span>{
+<span class="comment">//执行操作</span>
+)
+<span class="comment">//迭代类名</span>
+<span class="keyword">for</span> <span class="params">(var i=<span class="number">0</span>, len=div.classList.length; i &lt; len; i++)</span>{
+doSomething<span class="params">(div.classList[i])</span>;
+}
+</code></pre><h2 id="焦点管理">焦点管理</h2><p>document.activeElement 始终会引用 DOM 中当前获得了焦点的元素<br>document.hasFocus() 用于确定文档是否获得了焦点</p>
+<h2 id="HTMLDocument变化">HTMLDocument变化</h2><p>readyState loading，正在加载文档；complete，已经加载完文档<br>兼容模式<br>compatMode 在标准模式下document.compatMode的值等于”CSS1Compat”，而在混杂模式下， document.compatMode的值等于”BackCompat”</p>
+<h2 id="插入标记">插入标记</h2><p>innerHTML属性<br>在读模式下，innerHTML属性返回与调用元素的所有子节点（包括元素、注释和文本节点）对应的HTML标记。在写模式下，innerHTML会根据指定的值创建新的DOM树，然后用这个DOM树完全替换调用元素原先的所有子节点</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"content"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>This is a <span class="tag">&lt;<span class="title">strong</span>&gt;</span>paragraph<span class="tag">&lt;/<span class="title">strong</span>&gt;</span> with a list following it.<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</code></pre><p>对于上面的<div>元素来说，它的 innerHTML 属性会返回如下字符串。</div></p>
+<pre><code><span class="tag">&lt;<span class="title">p</span>&gt;</span>This is a <span class="tag">&lt;<span class="title">strong</span>&gt;</span>paragraph<span class="tag">&lt;/<span class="title">strong</span>&gt;</span> with a list following it.<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+</code></pre><h2 id="使用_innerHTML_属性也有一些限制。比如，在大多数浏览器中，通过_innerHTML_插入元素并不会执行其中的脚本，因此DOM1级中的动态脚本添加不使用innerHTML形式，而采用传统的添加文本子节点的方式">使用 innerHTML 属性也有一些限制。比如，在大多数浏览器中，通过 innerHTML 插入<script>元素并不会执行其中的脚本，因此DOM1级中的动态脚本添加不使用innerHTML形式，而采用传统的添加文本子节点的方式</h2><h2 id="outerHTML属性">outerHTML属性</h2><p>在读模式下， outerHTML 返回调用它的元素及所有子节点的 HTML 标签。在写模式下，outerHTML会根据指定的HTML字符串创建新的DOM子树，然后用这个DOM子树完全替换调用元素。下面是一个例子</p>
+<p>使用 outerHTML 属性以下面这种方式设置值：<br>div.outerHTML = “<p>This is a paragraph.</p>“;<br>这行代码完成的操作与下面这些 DOM 脚本代码一样：<br>var p = document.createElement(“p”);<br>p.appendChild(document.createTextNode(“This is a paragraph.”));<br>div.parentNode.replaceChild(p, div);</p>
+<h2 id="insertAdjacentHTML()方法">insertAdjacentHTML()方法</h2><p>四种插入方式，其中第一个参数一定要是四个参数中的一个<br>//作为前一个同辈元素插入<br>element.insertAdjacentHTML(“beforebegin”, “<p>Hello world!</p>“);<br>//作为第一个子元素插入<br>element.insertAdjacentHTML(“afterbegin”, “<p>Hello world!</p>“);<br>//作为最后一个子元素插入<br>element.insertAdjacentHTML(“beforeend”, “<p>Hello world!</p>“);<br>//作为后一个同辈元素插入<br>element.insertAdjacentHTML(“afterend”, “<p>Hello world!</p>“);</p>
+<p>scrollIntoView()可以在所有HTML元素上调用，通过滚动浏览器窗口或某个容器元素，调用元素就可以出现在视口中</p>
+<h2 id="innerText和outerText">innerText和outerText</h2><p>读模式：获取元素节点中的文本内容并拼接显示<br>写模式：更改所有内容为输入的文本参数</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"content"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>This is a <span class="tag">&lt;<span class="title">strong</span>&gt;</span>paragraph<span class="tag">&lt;/<span class="title">strong</span>&gt;</span> with a list following it.<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</code></pre><p>使用div.innerText属性返回一以下<br>This is a paragraph with a list following it.<br>Item 1<br>Item 2<br>Item 3</p>
+</script></h2>  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2015/09/24/DOM扩展-md/" data-title="DOM扩展.md | HappyLiuJian" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/09/24/jqueryValidation笔记-md/" title="jqueryValidation笔记.md">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  jqueryValidation笔记.md</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/09/24/DOM二级和三级-md/"  title="DOM二级和三级.md">
+ <strong>NEXT:</strong><br/> 
+ <span>DOM二级和三级.md
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#尽管DOM作为API已经非常完善了，但为了实现更多的功能，仍然会有一些标准或专有的扩展。对_DOM_的两个主要的扩展是_Selectors_API（选择符_API）和_HTML5，还有一个不那么引人瞩目的_Element_Traversal（元素遍历）规范，为_DOM_添加了一些属性。"><span class="toc-number">1.</span> <span class="toc-text">尽管DOM作为API已经非常完善了，但为了实现更多的功能，仍然会有一些标准或专有的扩展。对 DOM 的两个主要的扩展是 Selectors API（选择符 API）和 HTML5，还有一个不那么引人瞩目的 Element Traversal（元素遍历）规范，为 DOM 添加了一些属性。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#选择符API"><span class="toc-number">1.1.</span> <span class="toc-text">选择符API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#matchesSelector操作"><span class="toc-number">1.2.</span> <span class="toc-text">matchesSelector操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.3.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#而使用_Element_Traversal_新增的元素，代码会更简洁。"><span class="toc-number">1.4.</span> <span class="toc-text">而使用 Element Traversal 新增的元素，代码会更简洁。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#html5"><span class="toc-number">1.5.</span> <span class="toc-text">html5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#classList属性"><span class="toc-number">1.6.</span> <span class="toc-text">classList属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用classList属性"><span class="toc-number">1.7.</span> <span class="toc-text">使用classList属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#焦点管理"><span class="toc-number">1.8.</span> <span class="toc-text">焦点管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTMLDocument变化"><span class="toc-number">1.9.</span> <span class="toc-text">HTMLDocument变化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插入标记"><span class="toc-number">1.10.</span> <span class="toc-text">插入标记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用_innerHTML_属性也有一些限制。比如，在大多数浏览器中，通过_innerHTML_插入元素并不会执行其中的脚本，因此DOM1级中的动态脚本添加不使用innerHTML形式，而采用传统的添加文本子节点的方式"><span class="toc-number">1.11.</span> <span class="toc-text">使用 innerHTML 属性也有一些限制。比如，在大多数浏览器中，通过 innerHTML 插入元素并不会执行其中的脚本，因此DOM1级中的动态脚本添加不使用innerHTML形式，而采用传统的添加文本子节点的方式</h2><h2 id="outerHTML属性">outerHTML属性</h2><p>在读模式下， outerHTML 返回调用它的元素及所有子节点的 HTML 标签。在写模式下，outerHTML会根据指定的HTML字符串创建新的DOM子树，然后用这个DOM子树完全替换调用元素。下面是一个例子</p>
+<p>使用 outerHTML 属性以下面这种方式设置值：<br>div.outerHTML = “<p>This is a paragraph.</p>“;<br>这行代码完成的操作与下面这些 DOM 脚本代码一样：<br>var p = document.createElement(“p”);<br>p.appendChild(document.createTextNode(“This is a paragraph.”));<br>div.parentNode.replaceChild(p, div);</p>
+<h2 id="insertAdjacentHTML()方法">insertAdjacentHTML()方法</h2><p>四种插入方式，其中第一个参数一定要是四个参数中的一个<br>//作为前一个同辈元素插入<br>element.insertAdjacentHTML(“beforebegin”, “<p>Hello world!</p>“);<br>//作为第一个子元素插入<br>element.insertAdjacentHTML(“afterbegin”, “<p>Hello world!</p>“);<br>//作为最后一个子元素插入<br>element.insertAdjacentHTML(“beforeend”, “<p>Hello world!</p>“);<br>//作为后一个同辈元素插入<br>element.insertAdjacentHTML(“afterend”, “<p>Hello world!</p>“);</p>
+<p>scrollIntoView()可以在所有HTML元素上调用，通过滚动浏览器窗口或某个容器元素，调用元素就可以出现在视口中</p>
+<h2 id="innerText和outerText">innerText和outerText</h2><p>读模式：获取元素节点中的文本内容并拼接显示<br>写模式：更改所有内容为输入的文本参数</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"content"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>This is a <span class="tag">&lt;<span class="title">strong</span>&gt;</span>paragraph<span class="tag">&lt;/<span class="title">strong</span>&gt;</span> with a list following it.<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</code></pre><p>使用div.innerText属性返回一以下<br>This is a paragraph with a list following it.<br>Item 1<br>Item 2<br>Item 3</p>
+</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/JavaScriptDom5/" title="JavaScriptDom5">JavaScriptDom5<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom6/" title="JavaScriptDom6">JavaScriptDom6<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom7/" title="JavaScriptDom7">JavaScriptDom7<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom8/" title="JavaScriptDom8">JavaScriptDom8<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom9/" title="JavaScriptDom9">JavaScriptDom9<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom学习4/" title="JavaScriptDom学习4">JavaScriptDom学习4<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScritpDom简明学习2/" title="JavaScritpDom简明学习2">JavaScritpDom简明学习2<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScritpDom简明学习3/" title="JavaScritpDom简明学习3">JavaScritpDom简明学习3<sup>1</sup></a></li>
+		
+			<li><a href="/tags/emmetUse/" title="emmetUse">emmetUse<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/http://weibo.com/p/1005053267007984/home?from=page_100505&amp;mod=TAB#place" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/HappyLiuJian" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://yoursite.com" target="_blank" title="Liujian">Liujian</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"happyliujian"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,339 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>jqueryValidation笔记.md | HappyLiuJian</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Liujian">
+    
+    <meta name="description" content="两个重要概念method：验证方法，指校验的逻辑。比如Email方法，检查输入的文本是否符合Email的规则。rule:验证规则，指元素和验证方法的关联。比如页面一个id为Email的文本框，需要带有Email的验证方法。
+validate是插件的核心方法，定义了基本的校验规则和一些有用的配置项。例">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="HappyLiuJian" title="HappyLiuJian"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="HappyLiuJian">HappyLiuJian</a></h1>
+				<h2 class="blog-motto">HappyLiuJian&#39;s Home</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/09/24/jqueryValidation笔记-md/" title="jqueryValidation笔记.md" itemprop="url">jqueryValidation笔记.md</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Liujian">Liujian</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-09-24T13:47:26.000Z" itemprop="datePublished">2015-09-24</time>
+    更新日期:<time datetime="2015-09-24T13:48:49.776Z" itemprop="dateModified">2015-09-24</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目錄</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#两个重要概念"><span class="toc-number">1.</span> <span class="toc-text">两个重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#validate是插件的核心方法，定义了基本的校验规则和一些有用的配置项。例如，debug，如果这个参数为true,那么表单不会提交数据，只进行检查，调试是十分方便的。"><span class="toc-number">1.1.</span> <span class="toc-text">validate是插件的核心方法，定义了基本的校验规则和一些有用的配置项。例如，debug，如果这个参数为true,那么表单不会提交数据，只进行检查，调试是十分方便的。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本验证方法"><span class="toc-number">1.1.1.</span> <span class="toc-text">基本验证方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#valid()判断是否填写或者填写是否正确"><span class="toc-number">1.1.2.</span> <span class="toc-text">valid()判断是否填写或者填写是否正确</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rules()方法:获取表单元素的校验规则（注意：获取的是表单元素，不是整个表单。）"><span class="toc-number">1.1.3.</span> <span class="toc-text">rules()方法:获取表单元素的校验规则（注意：获取的是表单元素，不是整个表单。）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#validator对象"><span class="toc-number">1.1.4.</span> <span class="toc-text">validator对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#groups可以理解为统一在固定位置显示错误信息用errorPlaceement控制把错误信息放在何处。"><span class="toc-number">1.2.</span> <span class="toc-text">groups可以理解为统一在固定位置显示错误信息用errorPlaceement控制把错误信息放在何处。</span></a></li></ol></li></ol>
+		</div>
+		
+		<h1 id="两个重要概念">两个重要概念</h1><p>method：验证方法，指校验的逻辑。比如Email方法，检查输入的文本是否符合Email的规则。<br>rule:验证规则，指元素和验证方法的关联。比如页面一个id为Email的文本框，需要带有Email的验证方法。</p>
+<h2 id="validate是插件的核心方法，定义了基本的校验规则和一些有用的配置项。例如，debug，如果这个参数为true,那么表单不会提交数据，只进行检查，调试是十分方便的。">validate是插件的核心方法，定义了基本的校验规则和一些有用的配置项。例如，debug，如果这个参数为true,那么表单不会提交数据，只进行检查，调试是十分方便的。</h2><h3 id="基本验证方法">基本验证方法</h3><p>required必填 remote远程校验（获取后台文件（PHP，JSP等）的返回值，用来校验数据是否存在）<br>minlength最小长度 maxlength最大长度 rangelength长度范围<br>min最小值 max最大值 range值范围<br>Email：Email格式 URL：URL格式 date日期 dateISO：ISO日期<br>number数字 digits整数 equalTO与另一个元素值相等<br>data:{<br>loginTime:function(){<br>return+new Date;//<br>}<br>} 须有返回值<br>+new Date把字符转换成一组数字（毫秒数）</p>
+<h3 id="valid()判断是否填写或者填写是否正确">valid()判断是否填写或者填写是否正确</h3><p>检查表单元素是否有效，会返回true 和false</p>
+<h3 id="rules()方法:获取表单元素的校验规则（注意：获取的是表单元素，不是整个表单。）">rules()方法:获取表单元素的校验规则（注意：获取的是表单元素，不是整个表单。）</h3><p>rules(“add”,rules)向表单元素增加校验规则<br>rules(“remove”,rules)删除表单元素校验规则</p>
+<h3 id="validator对象">validator对象</h3><p>validate方法返回Validator对象，validator对象有很多有用的方法：<br>validator.form()验证表单是否有效，返回TRUE/false<br>validator.element(element)验证某个元素是否有效，返回TRUE/false<br>validator.resetform()把表单恢复到验证前原来的状态<br>validator.showErrors(errors)针对某个元素显示特定的错误信息（自定义校验中可以使用）<br>validator.numberOfInvalids()返回无效的元素数量（正确返回0）</p>
+<p>validate()方法配置项是validate插件的核心内容</p>
+<p>submitHandler通过验证后运行的函数，可以加上表单提交方法<br>invalidHandler无效表单提交后运行的函数<br>ignore对某些元素不进行验证<br>rules定义校验规则<br>messages定义提示信息<br>groups对一组元素的验证，用一个错误提示，用errorPlacement控制把出错信息防在那<br>调用：<br>submitHandler:function(from){<br>//表单提交的方式<br>from:submit();//$(form).Ajax.submit();//$ajax等方式提交表单<br>}</p>
+<p>invalidHandler:function(event,validator){ //event:无效验证触发的事件 //validator:对象</p>
+<p>}也可以写一个事件来触发<br>$(“选择器属性值”).on(“事件名”,function(event,validator)){</p>
+<p>});</p>
+<p>ignore的值是选择器，ignore:”:hidden”是ignore的默认值。<br>每一个rules都可以定义一个depends属性。depends属性是定义一下规则的条件，depends为true,required才为true。<br>rules: {<br>username: {<br>required: {<br>depends: function (element) { // 什么时候应用这个规则<br>return $(“#password”).is(“:filled”); // :filled表示是否被填写，是validator自带的选择器<br>}<br>},<br>//带上参数的返回的话需要加param属性就行啦<br>minlength: {<br>param: 2,//param值为参数<br>depends: function () {<br>// any codes<br>}<br>}<br>},<br>}</p>
+<h2 id="groups可以理解为统一在固定位置显示错误信息用errorPlaceement控制把错误信息放在何处。">groups可以理解为统一在固定位置显示错误信息用errorPlaceement控制把错误信息放在何处。</h2><p>validate()方法配制项<br>onsubmit是否在提交时验证<br>onfocusout是否在获取焦点时验证<br>onkeyup是否在敲击键盘时验证<br>onclick是否在鼠标点击时验证，一般用于checkbox或者radio<br>focusInvalid提交表单后，未通过验证的表单（第一个或提交之前获得焦点的未通过验证的表单）是否会获<br>得焦点<br>focusCleanup当未通过验证的元素获得焦点时，是否移除错误提示<br>errorClass指定错误提示的css类名，默认为error,可以自定义错误提示的样式，当然类名也可以自定义设置<br>validClass指定验证通过的css类名 道理同上<br>errorElement使用什么标签标记错误<br>wrapper使用什么标签把上边的errorElement包起来<br>errorLabelContainer把错误信息统一防在一个容器里面<br>errorContainer显示或者隐藏验证信息，可以自动实现由错误信息出现时把容器属性变为显示，无错误时隐藏（一般同时使用和上面3个或上面3个同时使用）</p>
+<p>validate插件自带3个选择器扩展<br>：blank选择所要值为空的元素（半角的空格都为blank）<br>：filled选择所要值不为空的元素<br>：unchecked选择所要没有被选中的元素（一般用于复选框）</p>
+<p>$.validator.addMethod(name,.method[,message])<br>name:方法名称<br>method:function(value,element,params)方法逻辑<br>message:提示消息<br>this.optional(element)意思填写值了才会验证，加上这个之后最好设置require，否则这个验证不会被执行</p>
+<p>additional-methods.js包含了很多扩展验证方法。在写自定义方法时可以参考这个js库</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2015/09/24/jqueryValidation笔记-md/" data-title="jqueryValidation笔记.md | HappyLiuJian" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/09/24/DOM扩展-md/"  title="DOM扩展.md">
+ <strong>NEXT:</strong><br/> 
+ <span>DOM扩展.md
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#两个重要概念"><span class="toc-number">1.</span> <span class="toc-text">两个重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#validate是插件的核心方法，定义了基本的校验规则和一些有用的配置项。例如，debug，如果这个参数为true,那么表单不会提交数据，只进行检查，调试是十分方便的。"><span class="toc-number">1.1.</span> <span class="toc-text">validate是插件的核心方法，定义了基本的校验规则和一些有用的配置项。例如，debug，如果这个参数为true,那么表单不会提交数据，只进行检查，调试是十分方便的。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本验证方法"><span class="toc-number">1.1.1.</span> <span class="toc-text">基本验证方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#valid()判断是否填写或者填写是否正确"><span class="toc-number">1.1.2.</span> <span class="toc-text">valid()判断是否填写或者填写是否正确</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rules()方法:获取表单元素的校验规则（注意：获取的是表单元素，不是整个表单。）"><span class="toc-number">1.1.3.</span> <span class="toc-text">rules()方法:获取表单元素的校验规则（注意：获取的是表单元素，不是整个表单。）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#validator对象"><span class="toc-number">1.1.4.</span> <span class="toc-text">validator对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#groups可以理解为统一在固定位置显示错误信息用errorPlaceement控制把错误信息放在何处。"><span class="toc-number">1.2.</span> <span class="toc-text">groups可以理解为统一在固定位置显示错误信息用errorPlaceement控制把错误信息放在何处。</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/JavaScriptDom5/" title="JavaScriptDom5">JavaScriptDom5<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom6/" title="JavaScriptDom6">JavaScriptDom6<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom7/" title="JavaScriptDom7">JavaScriptDom7<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom8/" title="JavaScriptDom8">JavaScriptDom8<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom9/" title="JavaScriptDom9">JavaScriptDom9<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScriptDom学习4/" title="JavaScriptDom学习4">JavaScriptDom学习4<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScritpDom简明学习2/" title="JavaScritpDom简明学习2">JavaScritpDom简明学习2<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScritpDom简明学习3/" title="JavaScritpDom简明学习3">JavaScritpDom简明学习3<sup>1</sup></a></li>
+		
+			<li><a href="/tags/emmetUse/" title="emmetUse">emmetUse<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/http://weibo.com/p/1005053267007984/home?from=page_100505&amp;mod=TAB#place" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/HappyLiuJian" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://yoursite.com" target="_blank" title="Liujian">Liujian</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"happyliujian"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>
